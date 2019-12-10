@@ -1,4 +1,4 @@
-package sänkaskepp;
+package battleships;
 
 import java.util.*;
 
@@ -75,7 +75,7 @@ public class Menu implements MenuItem {
         
         playGame.add(new AbstractMenuItem("Play game!") {
 	        public void execute() {
-	        	Game();
+	        	Game.runGame();
 	        }
         });
         mainMenu.execute();

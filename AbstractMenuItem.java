@@ -1,4 +1,4 @@
-package sänkaskepp;
+package battleships;
 
 public abstract class AbstractMenuItem implements MenuItem {    
 	

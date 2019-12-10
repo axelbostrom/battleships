@@ -1,4 +1,4 @@
-package sänkaskepp;
+package battleships;
 
 public interface MenuItem {
 	/**    * Returnerar menyvalets rubrik.    */    
