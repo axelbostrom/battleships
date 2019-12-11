@@ -1,6 +1,7 @@
 package battleships;
 
 public interface MenuItem {
+	
 	/**    * Returnerar menyvalets rubrik.    */    
 	
 	public String getTitle();
