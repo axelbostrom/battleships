@@ -22,7 +22,6 @@ public class Game {
 		
 
 		//gridMap();
-		
 		//Add player
 		player();
 		
@@ -92,16 +91,43 @@ public class Game {
 	
 	public static String player() {
 		String name = null;
-		int score = 0;
+		int playernbr = 1;
 		int hitrate = 0;
-		
-		//create new player
+		int choice = 0;
+		int score = 0;
 		Player player = new Player(name, score, hitrate);
-		System.out.println("Please enter your name: ");
-		name = scan.next();
-		player.setName(name);
 		
-		System.out.println("Welcome " + name + "!");
+		System.out.println("Would you like to play vs a computer or a friend?");
+		System.out.println("1. vs computer");
+		System.out.println("2. vs friend");
+		try {
+			choice = Integer.parseInt(scan.nextLine());
+		} catch (NumberFormatException e) {
+			System.out.println("Incorrect input, please only use number 1 or 2.");
+			System.out.println("Try again...");
+			System.out.println();
+			player();
+		}
+		for (int i = 0; i < choice; i++) {
+			if (choice == 2) {
+				System.out.println("Player " + playernbr + ", enter your name: ");
+				name = scan.next();
+				player.setName(name);		
+				System.out.println("Welcome " + name + "!");
+				System.out.println();
+				playernbr++;
+			} else if (choice == 1) {
+				System.out.println("Please enter your name: ");
+				name = scan.next();
+				player.setName(name);		
+				System.out.println("Welcome " + name + "!");
+				System.out.println();
+			} else {
+				System.out.println("Incorrect input... try again.");
+				System.out.println();
+				player();
+			}
+		}
 		return null;
 	}
 	
