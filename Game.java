@@ -2,11 +2,51 @@ package battleships;
 
 import java.util.*;
 
+<<<<<<< HEAD
+public class Game implements GameItem {
+	
+	protected String name;
+=======
 public class Game {
+>>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
 	public static char t;
 	public static int p1Ships; //Player one ships
 	public static int p2Ships; //Player two ships
 	public static int c1Ships; //Computers ships
+<<<<<<< HEAD
+	public static String[] ships = new String[Constants.BATTLESHIP_SIZE];
+	public static String[][] grid = new String [Constants.rowSize][Constants.colSize];
+	static Scanner scan = new Scanner(System.in);
+	
+	public static void main(String[] args) {		
+		Game demo = new Game();
+		demo.runGame();
+	}
+	
+    public Game(String name) {
+        this.name = name;
+    }
+	
+    public Game() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getName() {
+        return name;
+    }
+    
+	public void runGame() {
+		System.out.println("Welcome to Battle Ships!");
+		System.out.println();
+		//Launches all methods for game
+
+		//gridMap();
+		
+		//Add player
+		newPlayer();
+		
+		//Launch addShips
+=======
 	public static String[][] grid = new String [Constants.rowSize][Constants.colSize];
 	public static String[] ships = new String[Constants.BATTLESHIP_SIZE];
 	static Scanner scan = new Scanner(System.in);
@@ -26,12 +66,17 @@ public class Game {
 		player();
 		
 		//Launch addShipss
+>>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
 		addShips();
 		
 		attack();
 	}
 	
+<<<<<<< HEAD
+	public void gridMap() {
+=======
 	public static void gridMap() {
+>>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
 		System.out.print("   ");
 		for(int i = 0; i < Constants.rowSize; i++) {
 			System.out.print(i + "  ");
@@ -52,8 +97,12 @@ public class Game {
 		}
 	}
 	
+<<<<<<< HEAD
+	public void addShips() {
+=======
 	public static void addShips() {
 		System.out.println();
+>>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
 		p1Ships = 5;
 		c1Ships = 5;
 		
@@ -89,7 +138,11 @@ public class Game {
 		}
 	}
 	
+<<<<<<< HEAD
+	public String newPlayer() {
+=======
 	public static String player() {
+>>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
 		String name = null;
 		int playernbr = 1;
 		int hitrate = 0;
@@ -106,7 +159,11 @@ public class Game {
 			System.out.println("Incorrect input, please only use number 1 or 2.");
 			System.out.println("Try again...");
 			System.out.println();
+<<<<<<< HEAD
+			newPlayer();
+=======
 			player();
+>>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
 		}
 		for (int i = 0; i < choice; i++) {
 			if (choice == 2) {
@@ -125,17 +182,29 @@ public class Game {
 			} else {
 				System.out.println("Incorrect input... try again.");
 				System.out.println();
+<<<<<<< HEAD
+				newPlayer();
+=======
 				player();
+>>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
 			}
 		}
 		return null;
 	}
 	
+<<<<<<< HEAD
+	public void playerTurn() {
+		
+	}
+	
+	public void attack() {
+=======
 	public static void playerTurn() {
 		
 	}
 	
 	public static void attack() {
+>>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
 		System.out.println("Player 1: Get ready!");
 		System.out.println();
 		System.out.println("Please enter x coordinate to attack: ");
@@ -149,12 +218,20 @@ public class Game {
 			missedAttack(x, y);	
 	}
 	
+<<<<<<< HEAD
+	public void missedAttack(int x, int y) {
+=======
 	public static void missedAttack(int x, int y) {
+>>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
 		System.out.println("You missed!");
 		System.out.println("Player 2's turn.");
 	}
 	
+<<<<<<< HEAD
+	public void hitAttack(int x, int y) {
+=======
 	public static void hitAttack(int x, int y) {
+>>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
 		System.out.println("You hit a ship at grid: " + x + ", " + y);
 	}
 }

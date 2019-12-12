@@ -11,6 +11,8 @@ public class DataObject {
 	
 	public DataObject(String name, int score, int hitrate) {
 		super();
+<<<<<<< HEAD
+=======
 		this.setName(name);
 		this.setScore(score);
 		this.setHitrate(hitrate);
@@ -38,5 +40,6 @@ public class DataObject {
 
 	public void setHitrate(int hitrate) {
 		this.hitrate = hitrate;
+>>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
 	}
 }
