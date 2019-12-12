@@ -10,7 +10,7 @@ public class DataObject {
 	}
 	
 	public DataObject(String name, int score, int hitrate) {
-	s	super();
+		super();
 		this.setName(name);
 		this.setScore(score);
 		this.setHitrate(hitrate);

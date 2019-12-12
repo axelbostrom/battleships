@@ -1,6 +1,7 @@
 package battleships;
 
 import java.util.*;
+import java.io.*;
 
 public class Player extends DataObject {
 	protected String name;
@@ -13,5 +14,23 @@ public class Player extends DataObject {
 		this.setName(name);
 		this.setScore(score);
 		this.setHitrate(hitrate);
+	}
+	
+	public void addPlayer(Player c) {
+		players.add(c);
+	}
+	
+	public String toString() {
+		return "Name: " + getName() + ". " + "\n"
+				+ "Score: " +  getScore() + " points. " + "\n"
+				+ "Hitrate: " + getHitrate() + " procent hitrate." + "\n";
+	}
+	
+	public static void getPlayer(Player c) {
+		for (DataObject player: players) {
+			System.out.println(player);
+			System.out.println();
+		}
+
 	}
 }

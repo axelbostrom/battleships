@@ -7,23 +7,26 @@ public class Game {
 	public static int p1Ships; //Player one ships
 	public static int p2Ships; //Player two ships
 	public static int c1Ships; //Computers ships
-	//public static Player; 
 	public static String[][] grid = new String [Constants.rowSize][Constants.colSize];
+	public static String[] ships = new String[Constants.BATTLESHIP_SIZE];
+	static Scanner scan = new Scanner(System.in);
 	
 	public static void main(String[] args) {
 		runGame();
 	}
 	
 	public static void runGame() {
+		System.out.println("Welcome to Battle Ships!");
+		System.out.println();
 		//Launches all methods for game
 		
-		System.out.println("Welcome to Battle Ships game!");
-		
-		//Launch gridmap
+
 		//gridMap();
 		
-		//Launch addShips
-		//mapGui.bsGUI();
+		//Add player
+		player();
+		
+		//Launch addShipss
 		addShips();
 		
 		attack();
@@ -52,7 +55,6 @@ public class Game {
 	
 	public static void addShips() {
 		System.out.println();
-		Scanner scan = new Scanner(System.in);
 		p1Ships = 5;
 		c1Ships = 5;
 		
@@ -88,12 +90,26 @@ public class Game {
 		}
 	}
 	
+	public static String player() {
+		String name = null;
+		int score = 0;
+		int hitrate = 0;
+		
+		//create new player
+		Player player = new Player(name, score, hitrate);
+		System.out.println("Please enter your name: ");
+		name = scan.next();
+		player.setName(name);
+		
+		System.out.println("Welcome " + name + "!");
+		return null;
+	}
+	
 	public static void playerTurn() {
 		
 	}
 	
 	public static void attack() {
-		Scanner scan = new Scanner(System.in);
 		System.out.println("Player 1: Get ready!");
 		System.out.println();
 		System.out.println("Please enter x coordinate to attack: ");
