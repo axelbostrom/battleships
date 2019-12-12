@@ -1,7 +1,6 @@
 package battleships;
 
 import java.util.*;
-import java.io.*;
 
 public class Player extends DataObject {
 	protected String name;
