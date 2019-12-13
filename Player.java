@@ -15,7 +15,6 @@ public class Player extends DataObject {
 		this.setHitrate(hitrate);
 	}
 	
-<<<<<<< HEAD
 	public String getName() {
 		return name;
 	}
@@ -39,9 +38,7 @@ public class Player extends DataObject {
 	public void setHitrate(int hitrate) {
 		this.hitrate = hitrate;
 	}
-	
-=======
->>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
+
 	public void addPlayer(Player c) {
 		players.add(c);
 	}
@@ -52,21 +49,14 @@ public class Player extends DataObject {
 				+ "Hitrate: " + getHitrate() + " procent hitrate." + "\n";
 	}
 	
-<<<<<<< HEAD
 	public String printName() {
 		return getName();
 	}
 	
-=======
->>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
 	public static void getPlayer(Player c) {
 		for (DataObject player: players) {
 			System.out.println(player);
 			System.out.println();
 		}
-<<<<<<< HEAD
-=======
-
->>>>>>> d63f6b4db8e8e2b0c25348a0ccf9af1249847edd
 	}
 }
