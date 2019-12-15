@@ -30,6 +30,9 @@ public class Player extends DataObject {
 	public void setScore(int score) {
 		this.score = score;
 	}
+	
+	public void addScore(int score) {
+	}
 
 	public int getHitrate() {
 		return hitrate;
