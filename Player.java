@@ -2,14 +2,14 @@ package battleships;
 
 import java.util.*;
 
-public class Player extends DataObject {
+public class Player {
 	protected String name;
 	protected int score;
 	protected int hitrate;
-	static LinkedList<DataObject> players = new LinkedList<DataObject>();
+	static LinkedList<Player> players = new LinkedList<Player>();
 	
 	public Player(String name, int score, int hitrate) {
-		super(name,score,hitrate);
+		super();
 		this.setName(name);
 		this.setScore(score);
 		this.setHitrate(hitrate);
@@ -46,6 +46,10 @@ public class Player extends DataObject {
 		players.add(c);
 	}
 	
+	public void addPlayer(String c) {
+		addPlayer(new Player(c, score, hitrate));
+	}
+	
 	public String toString() {
 		return "Name: " + getName() + ". " + "\n"
 				+ "Score: " +  getScore() + " points. " + "\n"
@@ -57,7 +61,7 @@ public class Player extends DataObject {
 	}
 	
 	public static void getPlayer(Player c) {
-		for (DataObject player: players) {
+		for (Player player: players) {
 			System.out.println(player);
 			System.out.println();
 		}
