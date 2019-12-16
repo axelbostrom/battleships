@@ -8,9 +8,10 @@ public class Game implements GameItem {
 	public static int p1Ships; //Player one ships
 	public static int p2Ships; //Player two ships
 	public static int c1Ships;
-	public static String[][] grid = new String [Constants.rowSize][Constants.colSize];
 	public static String[][] grid1 = new String [Constants.rowSize][Constants.colSize];
 	public static String[][] grid2 = new String [Constants.rowSize][Constants.colSize];
+	public static String[][] grid3 = new String [Constants.rowSize][Constants.colSize];
+	public static String[][] grid4 = new String [Constants.rowSize][Constants.colSize];
 	static Scanner scan = new Scanner(System.in);
 	
 	public static void main(String[] args) {		
@@ -35,7 +36,8 @@ public class Game implements GameItem {
 		//Launches all methods for game
 		
 		//System.out.println("Board 1");
-		launchMap();
+		launchMap(grid1);
+		launchMap(grid2);
 		//System.out.println();
 		//System.out.println("Board 2");
 		//gridMap(grid2);
@@ -44,38 +46,43 @@ public class Game implements GameItem {
 		
 		//Launch addShipss
 		addShips(grid1);
+		addShips(grid2);
 		
 		attack(grid1);
 	}
 
-	public static void launchMap() {
+	public static void launchMap(String[][] grid) {
 		//Creates and fills grid with tilde
 		//Prints top row of grid
 		System.out.print("   ");
-		for(int i = 0; i < Constants.rowSize; i++) {
-			System.out.print(i + "  ");
-		}
-		System.out.println();
 		
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j] == " X ") {
-					grid[i][j] = " O ";
-				} else {
-					grid[i][j] = " ~ ";
-					if (j == 0)
-						System.out.print(i + "|"+ grid[i][j]);
-					else if (j == grid[i].length -1)
-						System.out.print(grid[i][j] + "|" + i);
-					else
-						System.out.print(grid[i][j]);
-				}
+		if (grid1.toString().contains(" ~ ")) {
+			grid2 = grid;
+		}
+			for(int i = 0; i < Constants.rowSize; i++) {
+				System.out.print(i + "  ");
 			}
 			System.out.println();
+			
+			for (int i = 0; i < grid.length; i++) {
+				for (int j = 0; j < grid[i].length; j++) {
+					if (grid[i][j] == " X ") {
+						grid[i][j] = " O ";
+					} else {
+						grid[i][j] = " ~ ";
+						if (j == 0)
+							System.out.print(i + "|"+ grid[i][j]);
+						else if (j == grid[i].length -1)
+							System.out.print(grid[i][j] + "|" + i);
+						else
+							System.out.print(grid[i][j]);
+					}
+				}
+				System.out.println();
 		}
 	}
 	//Prints map with ships
-    public static void printMap(String[][] grid){
+    public static void printMap(String[][] grid) {
 
 		System.out.print("   ");
 		for(int i = 0; i < Constants.rowSize; i++) {
@@ -101,6 +108,7 @@ public class Game implements GameItem {
 		//ArrayList<String> aiShips= new ArrayList<String>();
 		p1Ships = 2;
 		c1Ships = 2;
+		
 		for (Player player: Player.players) {
 			System.out.println(player.printName() + " you can place your ships!");
 			for (int i = 1; i <= p1Ships; i++) {

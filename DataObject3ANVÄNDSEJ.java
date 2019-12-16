@@ -1,15 +1,15 @@
 package battleships;
 
-public class DataObject2 {
+public class DataObject3ANVÄNDSEJ {
 	protected String name;
 	protected int score;
 	protected int hitrate;
 	
-	public DataObject2() {
+	public DataObject3ANVÄNDSEJ() {
 		
 	}
 	
-	public DataObject2(String name, int score, int hitrate) {
+	public DataObject3ANVÄNDSEJ(String name, int score, int hitrate) {
 		super();
 		this.setName(name);
 		this.setScore(score);
