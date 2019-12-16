@@ -213,7 +213,7 @@ public class Game implements GameItem {
 	}
 
 	public static void playerTurn() {
-		
+		fsfsf
 	}
 	
 	public static void attack(String[][] grid) {
