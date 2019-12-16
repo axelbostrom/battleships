@@ -11,6 +11,7 @@ public class Game implements GameItem {
 	public static String[][] grid1 = new String [Constants.rowSize][Constants.colSize];
 	public static String[][] grid2 = new String [Constants.rowSize][Constants.colSize];
 	static Scanner scan = new Scanner(System.in);
+//TESTTESTTEST
 	
 	public static void main(String[] args) {		
 		Game.runGame(grid1);
