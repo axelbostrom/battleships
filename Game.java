@@ -6,14 +6,14 @@ public class Game implements GameItem {
 	protected String name;
 	public static int playernbr = 2;
 	public static char t;
-	public static int p1Ships; //Player one ships
-	public static int p2Ships; //Player two ships
+	public static int pshipSize = 5; // size of ships
+	public static int pshipAmount = 2;
 	public static final int rowSize = 10;
 	public static final int colSize = 10;
-	public static String[][] grid1 = new String [rowSize][colSize];
-	public static String[][] grid2 = new String [rowSize][colSize];
-	public static String[][] grid3 = new String [rowSize][colSize];
-	public static String[][] grid4 = new String [rowSize][colSize];
+	public static String[][] grid1 = new String [rowSize][colSize]; //p1 grid
+	public static String[][] grid2 = new String [rowSize][colSize]; //p2 grid
+	public static String[][] grid3 = new String [rowSize][colSize]; //p1 attack grid
+	public static String[][] grid4 = new String [rowSize][colSize]; //p2 attack grid
 	public static String[][][] gridArray = {grid1, grid2, grid3, grid4};
 	
 	static Scanner scan = new Scanner(System.in);
@@ -53,6 +53,7 @@ public class Game implements GameItem {
 			}
 		}
 		//Launch addShipss
+		System.out.println();
 		
 		attack(grid1);
 	}
@@ -61,29 +62,33 @@ public class Game implements GameItem {
 		//Creates and fills grid with tilde
 		//Prints top row of grid
 		System.out.print("   ");
-		
 		for(int i = 0; i < rowSize; i++) {
 			System.out.print(i + "  ");
 		}
 		System.out.println();
-		
+
+		//Middle grid
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j] == " X ") {
-					grid[i][j] = " O ";
-				} else {
-					grid[i][j] = " ~ ";
-					if (j == 0)
-						System.out.print(i + "|"+ grid[i][j]);
-					else if (j == grid[i].length -1)
-						System.out.print(grid[i][j] + "|" + i);
-					else
-						System.out.print(grid[i][j]);
+				grid[i][j] = " ~ ";
+				if (j == 0)
+					System.out.print(i + "|"+ grid[i][j]);
+				else if (j == grid[i].length -1)
+					System.out.print(grid[i][j] + "|" + i);
+				else
+					System.out.print(grid[i][j]);
 				}
-			}
 			System.out.println();
+			}
+		//Bottom row
+		
+		System.out.print("   ");
+		for(int i = 0; i < rowSize; i++) {
+			System.out.print(i + "  ");
 		}
+		System.out.println();
 	}
+	
 	//Prints map with ships
     public static void printMap(String[][] grid) {
 
@@ -103,12 +108,17 @@ public class Game implements GameItem {
 
             System.out.println("|" + x);
         }
+		System.out.print("   ");
+		for(int i = 0; i < rowSize; i++) {
+			System.out.print(i + "  ");
+		}
+		System.out.println();
     }
 
 	public static void addShips(String[][] grid) {
-		p1Ships = 2;
+		
 		System.out.println();
-		for (int i = 1; i <= p1Ships; i++) {
+		for (int i = 1; i <= pshipAmount; i++) {
 			System.out.println("Please enter the length of your " + i + " ship. (only 1-5)");
 			int size = scan.nextInt();
 			while (size > 5 || size < 0) {
@@ -123,56 +133,58 @@ public class Game implements GameItem {
 			int y = scan.nextInt();
 			
 			//if ship is attempted to place outside of grid
-			if (((x > colSize) || (x < 0)) || ((y > rowSize) || (y < 0))) {
-				System.out.println("Not able to place ships outside of the grid.");
-				i--;
+			while (((x > colSize) || (x < 0)) || ((y > rowSize) || (y < 0)) || (grid[x][y]== " X ")) {
+				if (grid[x][y]== " X ") {
+					System.out.println("You cannot place a ship on top of another.");
+					System.out.println();
+				} else {
+					System.out.println("Not able to place ships outside of the grid.");
+					System.out.println();
+				}
+				System.out.println("Please enter X cooridinate for your " + i + " ship: ");
+				x = scan.nextInt();		
+				System.out.println("Please enter Y cooridinate for your " + i + " ship: ");
+				y = scan.nextInt();
+			}
+				
+			System.out.println("Would you like to place the ship horizontally or vertically?");
+			System.out.println("Answer H or V.");
+			String dir = scan.next();
+			
+			while(!(dir.equals("h")) && !(dir.equals("H")) && !(dir.equals("v")) && !(dir.equals("V"))) {
+				System.out.println("Incorrect input, only use H or V.");
+				dir = scan.next();
 			}
 			
-			else if ((grid[x][y]== " X ")) {
-				System.out.println("You cannot place a ship on top of another.");
-				i--;
-			} else {
-				//add if ship is placed closer than one grid from another ship
-				
-				System.out.println("Would you like to place the ship horizontally or vertically?");
-				System.out.println("Answer H or V.");
-				String dir = scan.next();
-				
-				while(!(dir.equals("h")) && !(dir.equals("H")) && !(dir.equals("v")) && !(dir.equals("V"))) {
-					System.out.println("Incorrect input, only use H or V.");
-					dir = scan.next();
-				}
-				
-				if (dir.equals("h") || dir.equals("H")) {
-					for (int j = 0; j < size; j++) {
-						if (grid[x][y+j] == " X " ) {
-							System.out.println("You cannot place a ship on top of another.");
-							i--;
-						} else if (((x > colSize) || (x < 0)) || ((y+j > rowSize) || (y+j < 0))) {
-							System.out.println("Not able to place ships outside of the grid.");
-							i--;
-						} else {
-							grid[x][y+j] = " X ";
-						}
+			if (dir.equals("h") || dir.equals("H")) {
+				for (int j = 0; j < size; j++) {
+					if (grid[x][y+j] == " X " ) {
+						System.out.println("You cannot place a ship on top of another.");
+						i--;
+					}
+					else if (((x > colSize) || (x < 0)) || ((y+j > rowSize) || (y+j < 0))) {
+						System.out.println("Not able to place ships outside of the grid.");
+						i--;
+					} else {
+						grid[x][y+j] = " X ";
 					}
 				}
-				
-				//Bugg för vertical, fixa
-				else if (dir.equals("v") || dir.equals("V")) {
-					for (int j = 0; j < size; j++) {
-						if (grid[x+j][y] == " X " ) {
-							System.out.println("You cannot place a ship on top of another.");
-							i--;
-						} else if (((x+j > colSize) || (x+j < 0)) || ((y > rowSize) || (y < 0))) {
-							System.out.println("Not able to place ships outside of the grid.");
-							i--;
-						} else {
-							grid[x+j][y] = " X ";
-						}
-					}
-				}
-				printMap(grid);
 			}
+			
+			else if (dir.equals("v") || dir.equals("V")) {
+				for (int j = 0; j < size; j++) {
+					if (grid[x+j][y] == " X " ) {
+						System.out.println("You cannot place a ship on top of another.");
+						i--;
+					} else if (((x+j > colSize) || (x+j < 0)) || ((y > rowSize) || (y < 0))) {
+						System.out.println("Not able to place ships outside of the grid.");
+						i--;
+					} else {
+						grid[x+j][y] = " X ";
+					}
+				}
+			}
+			printMap(grid);
 		}
 	}
 	
@@ -188,6 +200,7 @@ public class Game implements GameItem {
 		player.setName(name);
 		System.out.println();
 		System.out.println("Welcome " + name + "!");
+		System.out.println();
 		
 		//launches players maps
 		launchMap(gridArray[i]);
@@ -197,41 +210,31 @@ public class Game implements GameItem {
 	}
 
 	public static void playerTurn() {
+		while(playerDead() == false) {
+			
+		}
 		
+	}
+	
+	public static boolean playerDead() {
+		
+		
+		return false;
 	}
 	
 	public static void attack(String[][] grid) {
-			System.out.println("Player 1: Get ready!");
-			System.out.println();
-			System.out.println("Please enter x coordinate to attack: ");
-			int x = scan.nextInt();
-			System.out.println("Please enter y coordinate to attack: ");
-			int y = scan.nextInt();
 		
-			if (grid[x][y] == " X ")
-				hitAttack(x , y, grid);
-			else if (grid[x][y] == " ~ ")
-				missedAttack(x, y, grid);	
-			else
-				alreadyHit(x, y, grid);
 	}
 
 	public static void missedAttack(int x, int y, String[][] grid) {
-		System.out.println("You missed!");
-		grid[x][y] = " O ";
-		printMap(grid);
+		
 	}
 	
 	public static void hitAttack(int x, int y, String[][] grid) {
-		System.out.println("You hit a ship at grid: " + x + ", " + y);
-		grid[x][y] = " @ ";
-		printMap(grid);
-		attack(grid);
+		
 	}
 	
 	public static void alreadyHit(int x, int y, String[][] grid) {
-		System.out.println("You have already hit this position, try again.");
-		printMap(grid);
-		attack(grid);
+		
 	}
 }
