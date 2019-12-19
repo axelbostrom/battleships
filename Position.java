@@ -1,29 +1,30 @@
 package battleships;
+import java.awt.Point;
 
 public class Position {
-	private int x;
-	private int y;
+	private Point from;
+	private Point to;
 	private int numCols = 10;
 	private int numRows = 10;
 	
-	public Position(int x, int y) throws ArrayIndexOutOfBoundsException {
+	public Position(Point from, Point to) throws ArrayIndexOutOfBoundsException {
 		if (
-				x > numCols || x < 0
-				|| y > numRows || y < 0
-				|| x > numCols || x < 0
-				|| y > numRows || y < 0) {
+				from.getX() > numCols || from.getX() < 0
+				|| from.getY() > numRows || from.getY() < 0
+				|| to.getX() > numCols || to.getX() < 0
+				|| to.getY() > numRows || to.getY() < 0) {
 			 
 		}
-		this.x = x;
-		this.y = y;
+		this.from = from;
+		this.to = to;
 	}
 	
-	public int getX() {
-		return x;
+	public Point getFrom() {
+		return from;
 	}
 	
-	public int getY() {
-		return y;
+	public Point getTo() {
+		return to;
 	}
 	
 }
