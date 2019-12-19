@@ -2,7 +2,7 @@ package battleships;
 
 import java.util.*;
 
-public class Game implements GameItem {
+public class Game  {
 	protected String name;
 	public static int playernbr = 2;
 	public static char t;
@@ -15,6 +15,8 @@ public class Game implements GameItem {
 	public static String[][] grid3 = new String [rowSize][colSize]; //p1 attack grid
 	public static String[][] grid4 = new String [rowSize][colSize]; //p2 attack grid
 	public static String[][][] gridArray = {grid1, grid2, grid3, grid4};
+	public LinkedList<Player> players = new LinkedList<Player>();
+
 	
 	static Scanner scan = new Scanner(System.in);
 	
@@ -29,33 +31,29 @@ public class Game implements GameItem {
     public Game() {
 		// TODO Auto-generated constructor stub
 	}
-
+    
 	public String getName() {
         return name;
     }
 	
 	public static void runGame() {
+		Game game = new Game();
 		System.out.println("Welcome to Battle Ships!");
 		System.out.println("========================");
 		System.out.println();
 		//Launches all methods for game
-		
-		//System.out.println("Board 1");
-		//System.out.println();
-		//System.out.println("Board 2");
-		//gridMap(grid2);
-		//Add player
 
 		for (int i = 0; i <= playernbr; i++) {
 			for (int j = 1; j <= 2; j++) {
 				i++;
-				newPlayer(i, j);
+				game.newPlayer(i, j);
 			}
 		}
+		game.placeShips();
 		//Launch addShipss
 		System.out.println();
 		
-		attack(grid1);
+		//attack(grid1);
 	}
 
 	public static void launchMap(String[][] grid) {
@@ -114,6 +112,14 @@ public class Game implements GameItem {
 		}
 		System.out.println();
     }
+    
+    public void placeShips() {
+		for(Player p : players) {
+			for (int i = 1; i <= 5; i++) {
+				p.createShip();
+			}
+		}
+    }
 
 	public static void addShips(String[][] grid) {
 		
@@ -131,6 +137,7 @@ public class Game implements GameItem {
 			int x = scan.nextInt();		
 			System.out.println("Please enter Y cooridinate for your " + i + " ship: ");
 			int y = scan.nextInt();
+			
 			
 			//if ship is attempted to place outside of grid
 			while (((x > colSize) || (x < 0)) || ((y > rowSize) || (y < 0)) || (grid[x][y]== " X ")) {
@@ -151,49 +158,63 @@ public class Game implements GameItem {
 			System.out.println("Answer H or V.");
 			String dir = scan.next();
 			
-			while(!(dir.equals("h")) && !(dir.equals("H")) && !(dir.equals("v")) && !(dir.equals("V"))) {
+			while (!(dir.equals("h")) && !(dir.equals("H")) && !(dir.equals("v")) && !(dir.equals("V"))) {
 				System.out.println("Incorrect input, only use H or V.");
 				dir = scan.next();
 			}
 			
 			if (dir.equals("h") || dir.equals("H")) {
 				for (int j = 0; j < size; j++) {
-					if (grid[x][y+j] == " X " ) {
+					while (grid[x][y+j] == " X " ) {
 						System.out.println("You cannot place a ship on top of another.");
-						i--;
+						System.out.println("Please enter X cooridinate for your " + i + " ship: ");
+						x = scan.nextInt();	
+						System.out.println("Please enter Y cooridinate for your " + i + " ship: ");
+						y = scan.nextInt();
 					}
-					else if (((x > colSize) || (x < 0)) || ((y+j > rowSize) || (y+j < 0))) {
-						System.out.println("Not able to place ships outside of the grid.");
-						i--;
-					} else {
+					
+					try  {
 						grid[x][y+j] = " X ";
+					} 
+					catch (ArrayIndexOutOfBoundsException e) {
+						System.out.println("Not able to place ships outside of the grid.");
+						System.out.println("Please enter X cooridinate for your " + i + " ship: ");
+						x = scan.nextInt();		
+						System.out.println("Please enter Y cooridinate for your " + i + " ship: ");
+						y = scan.nextInt();
 					}
 				}
 			}
 			
 			else if (dir.equals("v") || dir.equals("V")) {
 				for (int j = 0; j < size; j++) {
-					if (grid[x+j][y] == " X " ) {
+					while (grid[x+j][y] == " X " ) {
 						System.out.println("You cannot place a ship on top of another.");
-						i--;
-					} else if (((x+j > colSize) || (x+j < 0)) || ((y > rowSize) || (y < 0))) {
+						System.out.println("Please enter X cooridinate for your " + i + " ship: ");
+						x = scan.nextInt();	
+						System.out.println("Please enter Y cooridinate for your " + i + " ship: ");
+						y = scan.nextInt();
+					} while (((x+j > colSize) || (x+j < 0)) || ((y > rowSize) || (y < 0))) {
 						System.out.println("Not able to place ships outside of the grid.");
-						i--;
-					} else {
-						grid[x+j][y] = " X ";
+						System.out.println("Please enter X cooridinate for your " + i + " ship: ");
+						x = scan.nextInt();	
+						System.out.println("Please enter Y cooridinate for your " + i + " ship: ");
+						y = scan.nextInt();
 					}
+					grid[x+j][y] = " X ";
 				}
 			}
-			printMap(grid);
 		}
+		printMap(grid);
 	}
+
 	
-	public static void newPlayer(int nbr, int i) {
+	public void newPlayer(int nbr, int i) {
 		String name = null;
 		int score = 0;
 		int hitrate = 0;
 		Player player = new Player(name, score, hitrate);
-
+		players.add(player);
 		
 		System.out.println("Player " + nbr + ", please enter your name: ");
 		name = scan.next();
@@ -205,21 +226,10 @@ public class Game implements GameItem {
 		//launches players maps
 		launchMap(gridArray[i]);
 		System.out.println();
-		System.out.println("The seas are currently empty, get ready to place your ships, "+ name);
-		addShips(gridArray[i]);
 	}
 
 	public static void playerTurn() {
-		while(playerDead() == false) {
-			
-		}
 		
-	}
-	
-	public static boolean playerDead() {
-		
-		
-		return false;
 	}
 	
 	public static void attack(String[][] grid) {
