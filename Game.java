@@ -48,9 +48,8 @@ public class Game  {
     
     public void placeShips() {
 		for(Player p : players) {
-			System.out.println("The seas are currently empty, get ready to place your ships, " + getName());
-			Grid grid = new Grid();
-			grid.makeGrid();
+			p.makeGrid();
+			System.out.println("The seas are currently empty, get ready to place your ships, " + p.getName());
 			for (int i = 1; i <= 5; i++) {
 				p.createShip();
 			}

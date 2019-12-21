@@ -71,27 +71,23 @@ public class Player {
     	int shipSize = 0;
     	int shipLives = 0;
     	boolean shipSunk = false;
-    	Position position = null;
-
+    	Position position = null;	
 		Ship ship = new Ship(shipName, shipSize, shipLives, shipSunk, position);
+		
 		while (!isShipPlacementLegal) {
-			try {
-	    		System.out.println("Please enter the name of your ship: ");
-	    		shipName = scan.next();
-	    		System.out.println("Please enter the starting coordinate for your ship " + shipName + ", maximum length is 5 units.");
-	    		System.out.println("Write for example '1 1'.");
-	    		Point from = new Point(scan.nextInt(), scan.nextInt());
-	    		System.out.println("Please enter the end coordinate.");
-	    		Point to = new Point(scan.nextInt(), scan.nextInt());
-	    		
-	    		while (Utils.distanceBetweenPoints(from, to) > 5) {
-	    			System.out.println("Incorrect size, your ship cannot be longer than 5 units. Try again.");
-	    			System.out.println("Please enter your starting coordinate.");
-	    			from = new Point(scan.nextInt(), scan.nextInt());
-    	    		System.out.println("Please enter the end coordinate.");
-    	    		to = new Point(scan.nextInt(), scan.nextInt());
-	    		}
-	    		position = new Position(from, to);
+            try {
+            	System.out.println("Please enter the starting coordinates for " + shipName + " (type 'x y': ");
+                Point from = new Point(scan.nextInt(), scan.nextInt());
+                System.out.println("Please enter the ending coordinates for " + shipName + " (type 'x y': ");
+                Point to = new Point(scan.nextInt(), scan.nextInt());
+
+                while((Utils.distanceBetweenPoints(from, to) > 5)) {
+                    System.out.printf("Your ship cannot be longer than 5 units. Try again.");
+
+                    from = new Point(scan.nextInt(), scan.nextInt());
+                    to = new Point(scan.nextInt(), scan.nextInt());
+                }
+                position = new Position(from, to);
 
                 if(!isPositionOccupied(position)) {
                     drawShips(position);
@@ -101,12 +97,67 @@ public class Player {
                     System.out.println("A ship in that position already exists - try again");
                 }
 
-		
-			} catch(IndexOutOfBoundsException e) {
-				System.out.println("Invalid coordinates - Outside board");
-			}
-		}
-	}		
+            } catch(IndexOutOfBoundsException e) {
+                System.out.println("Invalid coordinates - Outside board");
+            }
+        }
+    }
+			
+			/* try {
+				System.out.println("Please enter the name for your ship.");
+				shipName = scan.next();
+				System.out.println();
+				System.out.println("Please enter the starting x-coordinate for your ship, " + shipName + ".");
+				int x = scan.nextInt();
+				System.out.println("Please enter the starting y-coordinate for your ship, " + shipName + ".");
+				int y = scan.nextInt();
+				
+				while (((x > colSize) || (x < 0)) || ((y > rowSize) || (y < 0)) || (grid[x][y]== "X")) {
+					if (grid[x][y]== "X") {
+						System.out.println("You cannot place a ship on top of another.");
+						System.out.println();
+					} else {
+						System.out.println("Not able to place ships outside of the grid.");
+						System.out.println();
+					}
+					System.out.println("Please enter X cooridinate for " + shipName + ".");
+					x = scan.nextInt();		
+					System.out.println("Please enter Y cooridinate for " + shipName + ".");
+					y = scan.nextInt();
+				}
+				System.out.println("Please enter the size of your ship, " + shipName);
+				shipSize = scan.nextInt();
+				
+				while ((shipSize > 5) && (shipSize < 0)) {
+					System.out.println("Incorrect size, the ship has to be between 1-5 units.");
+					shipSize = scan.nextInt();				
+				}
+				
+				System.out.println("Would you like to place your ship facing horizontally or vertically?");
+				System.out.println("Answer H or V");
+				String dir = scan.next();
+
+				while (!(dir.equals("H")) 
+						&& !(dir.equals("V"))) {
+					System.out.println("Incorrect input, only use H or V");
+					dir = scan.next();
+						}
+					
+
+				} catch (InputMismatchException e) {
+					
+				} */
+	
+    public void makeGrid() {
+        grid = new String[rowSize][rowSize];
+
+        for(int i = 0; i < rowSize; i++) {
+            for(int j = 0; j < rowSize; j++) {
+                grid[i][j] = "~";
+            }
+        }
+        
+    }
 	
 	//Prints map with ships
     public void printMap() {
@@ -122,8 +173,6 @@ public class Player {
         for(int i = 0; i < rowSize; i++) {
             System.out.print((i) + "  ");
             for(int j = 0; j < rowSize; j++) {
-            	if (grid[i][j] == null)
-            		grid[i][j] = "~";
                 System.out.print(grid[i][j] + "  ");
             }
             System.out.println();
@@ -133,28 +182,59 @@ public class Player {
     private void drawShips(Position position) {
         Point from = position.getFrom();
         Point to = position.getTo();
-        for(int i = (int) from.getY() - 1; i < to.getY(); i++) {
-            for(int j = (int) from.getX() - 1; j < to.getX(); j++) {
+        
+        for(int i = (int) from.getY(); i <= to.getY(); i++) {
+            for(int j = (int) from.getX(); j <= to.getX(); j++) {
                 grid[i][j] = "X";
             }
         }
         printMap();
     }
+        
+        /*if (from.getY() <=  to.getY()) {
+	        for(int i = (int) from.getY(); i <= to.getY(); i++) {
+	            for(int j = (int) from.getX(); j <= to.getX(); j++) {
+	                grid[i][j] = "X";
+	            }
+	        }
+        }
+        else if (to.getY() <= from.getY()) {
+	        for(int i = (int) to.getY(); i <= (int) from.getY(); i++) {
+	            for(int j = (int) to.getX(); j <= from.getX(); j++) {
+	                grid[i][j] = "X";
+	            }
+	        } 
+        }*/
 	
     public boolean isPositionOccupied(Position position) {
         boolean isOccupied = false;
-        Point from = position.getFrom();
-        Point to = position.getTo();
-
-        outer:
-        for(int i = (int) from.getY() - 1; i < to.getY(); i++) {
-            for(int j = (int) from.getX() - 1; j < to.getX(); j++) {
+    	Point from = position.getFrom();
+    	Point to = position.getTo();
+    	
+    	for(int i = (int) from.getY(); i < to.getY(); i++) {
+            for(int j = (int) from.getX(); j < to.getX(); j++) {
                 if(grid[i][j] == "X") {
-                    isOccupied = true;
-                    break outer;
+                	isOccupied = true;
+                    break;
                 }
             }
-        }
-        return isOccupied;
+    	}
+    	return isOccupied;
+    }
+    
+    public boolean isShipTooClose(Position position) {
+    	boolean tooClose = false;
+    	Point from = position.getFrom();
+    	Point to = position.getTo();
+    	
+    	for(int i = (int) from.getY(); i < to.getY(); i++) {
+            for(int j = (int) from.getX(); j < to.getX(); j++) {
+                if(grid[i][j] == "X") {
+                    tooClose = true;
+                    break;
+                }
+            }
+    	}
+    	return tooClose;
     }
 }
