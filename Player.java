@@ -11,7 +11,8 @@ public class Player {
     public Scanner scan = new Scanner(System.in);
 	private static final int rowSize = 10;
 	private static final int colSize = 10;
-	private String[][] grid = new String[rowSize][colSize];
+	private String[][] playerGrid = new String[rowSize][colSize];
+	private String[][] attackGrid = new String[rowSize][colSize];
 	
 	public Player(String name, int score, int hitrate) {
 		super();
@@ -76,29 +77,42 @@ public class Player {
 		
 		while (!isShipPlacementLegal) {
             try {
-            	System.out.println("Please enter the starting coordinates for " + shipName + " (type 'x y': ");
+            	System.out.println("Please enter the name of your ship.");
+            	shipName = scan.next();
+            	System.out.println("Please enter the starting coordinates for " + shipName + " (type 'x y'): ");
                 Point from = new Point(scan.nextInt(), scan.nextInt());
-                System.out.println("Please enter the ending coordinates for " + shipName + " (type 'x y': ");
+                System.out.println("Please enter the ending coordinates for " + shipName + " (type 'x y'): ");
                 Point to = new Point(scan.nextInt(), scan.nextInt());
 
                 while((Utils.distanceBetweenPoints(from, to) > 5)) {
                     System.out.printf("Your ship cannot be longer than 5 units. Try again.");
-
+                    System.out.println("Please enter the starting coordinates for " + shipName + " (type 'x y'): ");
                     from = new Point(scan.nextInt(), scan.nextInt());
+                    System.out.println("Please enter the ending coordinates for " + shipName + " (type 'x y'): ");
                     to = new Point(scan.nextInt(), scan.nextInt());
                 }
                 position = new Position(from, to);
-
-                if(!isPositionOccupied(position)) {
-                    drawShips(position);
-                    ship.setPosition(position);
-                    isShipPlacementLegal = true;
-                } else {
-                    System.out.println("A ship in that position already exists - try again");
-                }
+                
+                if (isPositionOccupied(position, playerGrid)) {
+                	while (isPositionOccupied(position, playerGrid)) {
+                		 System.out.printf("A ship already exists in that position. Try again.");
+                         System.out.println("Please enter the starting coordinates for " + shipName + " (type 'x y'): ");
+                         from = new Point(scan.nextInt(), scan.nextInt());
+                         System.out.println("Please enter the ending coordinates for " + shipName + " (type 'x y'): ");
+                         to = new Point(scan.nextInt(), scan.nextInt());
+                	}
+            	}
+                shipSize = (int) Utils.distanceBetweenPoints(from, to);
+                ship.setShipName(shipName);
+                ship.setPosition(position);
+                ship.setShipSize(shipSize);
+                ship.setShipLives(shipSize);
+        		drawShips(position, playerGrid);
+                isShipPlacementLegal = true;
 
             } catch(IndexOutOfBoundsException e) {
                 System.out.println("Invalid coordinates - Outside board");
+                
             }
         }
     }
@@ -148,19 +162,25 @@ public class Player {
 					
 				} */
 	
+	//launches two grids, one for player to place ships and one to attack
     public void makeGrid() {
-        grid = new String[rowSize][rowSize];
 
         for(int i = 0; i < rowSize; i++) {
             for(int j = 0; j < rowSize; j++) {
-                grid[i][j] = "~";
+                playerGrid[i][j] = "~";
+            }
+        }
+        
+        for(int i = 0; i < rowSize; i++) {
+            for(int j = 0; j < rowSize; j++) {
+                attackGrid[i][j] = "~";
             }
         }
         
     }
 	
 	//Prints map with ships
-    public void printMap() {
+    public void printMap(String[][] grid) {
     	
     	System.out.print("   ");
 
@@ -179,7 +199,7 @@ public class Player {
         }
     }
     
-    private void drawShips(Position position) {
+    private void drawShips(Position position, String[][] grid) {
         Point from = position.getFrom();
         Point to = position.getTo();
         
@@ -188,7 +208,7 @@ public class Player {
                 grid[i][j] = "X";
             }
         }
-        printMap();
+        printMap(grid);
     }
         
         /*if (from.getY() <=  to.getY()) {
@@ -206,7 +226,7 @@ public class Player {
 	        } 
         }*/
 	
-    public boolean isPositionOccupied(Position position) {
+    public boolean isPositionOccupied(Position position, String[][] grid) {
         boolean isOccupied = false;
     	Point from = position.getFrom();
     	Point to = position.getTo();
@@ -222,7 +242,9 @@ public class Player {
     	return isOccupied;
     }
     
-    public boolean isShipTooClose(Position position) {
+    //Too add class that prevents players from placing ships to close to other ships
+    
+    public boolean isShipTooClose(Position position, String[][] grid) {
     	boolean tooClose = false;
     	Point from = position.getFrom();
     	Point to = position.getTo();
@@ -236,5 +258,9 @@ public class Player {
             }
     	}
     	return tooClose;
+    }
+    
+    public void checkGrid(int x, int y) {
+    	
     }
 }
