@@ -7,16 +7,21 @@ public class Player {
 	protected String name;
 	protected int score;
 	protected int hitrate;
+	public static int pshipSize = 5; // size of ships
+	public static int pshipAmount = 2;
+	protected int id;
     private List<Ship> ships = new ArrayList<>();
     public Scanner scan = new Scanner(System.in);
 	private static final int rowSize = 10;
 	private static final int colSize = 10;
 	private String[][] playerGrid = new String[rowSize][colSize];
 	private String[][] attackGrid = new String[rowSize][colSize];
+	protected int playerLife;
 	
-	public Player(String name, int score, int hitrate) {
+	public Player(String name, int id, int score, int hitrate) {
 		super();
 		this.setName(name);
+		this.setID(id);
 		this.setScore(score);
 		this.setHitrate(hitrate);
 	}
@@ -27,6 +32,14 @@ public class Player {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public int getID() {
+		return id;
+	}
+	
+	public void setID(int id) {
+		this.id=id;
 	}
 
 	public int getScore() {
@@ -66,6 +79,16 @@ public class Player {
 		ships.add(a);
 	}
 	
+	public void placeShips() {
+		makeGrid(playerGrid);
+		makeGrid(attackGrid);
+		System.out.println("The seas are currently empty, get ready to place your ships, " + getName());
+		for (int i = 1; i <= pshipAmount; i++) {
+			createShip();
+		}
+		playerLife = ships.toString().length();
+	}
+	
 	public void createShip() {
 		boolean isShipPlacementLegal = false;
     	String shipName = null;
@@ -74,6 +97,7 @@ public class Player {
     	boolean shipSunk = false;
     	Position position = null;	
 		Ship ship = new Ship(shipName, shipSize, shipLives, shipSunk, position);
+		ships.add(ship);
 		
 		while (!isShipPlacementLegal) {
             try {
@@ -163,20 +187,13 @@ public class Player {
 				} */
 	
 	//launches two grids, one for player to place ships and one to attack
-    public void makeGrid() {
+    public void makeGrid(String[][] grid) {
 
         for(int i = 0; i < rowSize; i++) {
             for(int j = 0; j < rowSize; j++) {
-                playerGrid[i][j] = "~";
+                grid[i][j] = "~";
             }
-        }
-        
-        for(int i = 0; i < rowSize; i++) {
-            for(int j = 0; j < rowSize; j++) {
-                attackGrid[i][j] = "~";
-            }
-        }
-        
+        }    
     }
 	
 	//Prints map with ships
@@ -260,7 +277,33 @@ public class Player {
     	return tooClose;
     }
     
-    public void checkGrid(int x, int y) {
+    public boolean attacked(Point z) {
+    	int x = (int) z.getX(); 
+    	int y = (int) z.getY();
+    	boolean HIT = true;
+    	boolean MISS = true;
+    	boolean WIN = true;
+    	boolean AGAIN = true;
     	
+    	if (playerGrid[x][y] == "X") {
+    		playerGrid[x][y] = "H";
+    		playerLife--;
+    		if (playerLife == 0) {
+    			return WIN;
+    		}
+    		return HIT;
+    	}
+    	else if (playerGrid[x][y] == "~") {
+    		playerGrid[x][y] = "O";
+    		return MISS;
+    	}
+    	return AGAIN;
+    }
+    
+    public void hit(Point hit) {
+    	int x = (int) hit.getX(); 
+    	int y = (int) hit.getY();
+    	
+    	attackGrid[x][y] = "H";
     }
 }

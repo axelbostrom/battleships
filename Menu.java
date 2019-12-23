@@ -48,6 +48,7 @@ public class Menu implements MenuItem {
     	Menu mainMenu = new Menu("Main Menu");
     	Menu playGame = new Menu("Play");
     	Menu scoreBoard = new Menu("Scoreboard");
+    	Game game = new Game();
     	System.out.println("Welcome to Battleships!");
     	System.out.println();
     	
@@ -77,13 +78,13 @@ public class Menu implements MenuItem {
         
         playGame.add(new AbstractMenuItem("Player vs computer") {
 	        public void execute() {
-	        	Game.runGame();
+	        	game.runGame();
 	        }
         });
         
         playGame.add(new AbstractMenuItem("Player vs player") {
 	        public void execute() {
-	        	Game.runGame();
+	        	game.runGame();
 	        }
         });
         

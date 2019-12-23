@@ -4,23 +4,22 @@ import java.awt.Point;
 import java.util.*;
 
 public class Game  {
-	protected String name;
-	public static boolean gameOver;
+	public static boolean gameOver = false;
 	public static boolean playerWin;
 	public static int playernbr = 2;
 	public static char t;
-	public static int pshipSize = 5; // size of ships
-	public static int pshipAmount = 2;
 	public static final int rowSize = 10;
 	public static final int colSize = 10;
-	public static LinkedList<Player> players = new LinkedList<Player>();
+	public String name = null;
+	public int score = 0;
+	public int hitrate = 0;
+	public int id = 0;
+	public Player player1 = new Player(name, id, score, hitrate);
+	public Player player2 = new Player(name, id, score, hitrate);
+	public LinkedList<Player> players = new LinkedList<Player>();
 	//public String[][] grid = new String [rowSize][colSize];
 	
 	static Scanner scan = new Scanner(System.in);
-	
-	public static void main(String[] args) {	
-		Game.runGame();
-	}
 	
     public Game(String name) {
         this.name = name;
@@ -34,25 +33,47 @@ public class Game  {
         return name;
     }
 	
-	public static void runGame() {
+	public void runGame() {
 		Game game = new Game();
 		System.out.println("Welcome to Battle Ships!");
 		System.out.println("========================");
 		System.out.println();
-
-		for (int i = 1; i <= playernbr; i++) {
-			game.newPlayer(i);
-			}
 		
-		//launches maps for all players
-		placeShips();
+		System.out.println("Player 1, please enter your name.");
+		name = scan.next();
+		player1.setName(name);
+		player1.setID(1);
+		players.add(player1);
+		
+		System.out.println("Player 2, please enter your name.");
+		name = scan.next();
+		player2.setName(name);
+		player2.setID(2);
+		players.add(player2);
+		
+		//creates n players
+		//for (int i = 1; i <= playernbr; i++) {
+		//	game.newPlayer(i);
+		//	}
+		
+		//places ships for players
+		for (Player p: players) {
+			p.placeShips();
+		}
+		
+		while (!gameOver) {
+			attack(player1);
+			attack(player2);
+		}
 	}
     
 	public void newPlayer(int nbr) {
+		
 		String name = null;
 		int score = 0;
 		int hitrate = 0;
-		Player player = new Player(name, score, hitrate);
+		int id = 0;
+		Player player = new Player(name, id, score, hitrate);
 		players.add(player);
 		
 		System.out.println("Player " + nbr + ", please enter your name: ");
@@ -62,16 +83,6 @@ public class Game  {
 		System.out.println("Welcome " + name + "!");
 		System.out.println();
 	}
-	
-	public static void placeShips() {
-		for (Player p: players) {
-			p.makeGrid();
-			System.out.println("The seas are currently empty, get ready to place your ships, " + p.getName());
-			for (int i = 1; i <= pshipAmount; i++) {
-				p.createShip();
-			}
-		}
-	}
 
 	public void playerTurn() {
 		while (!gameOver) {
@@ -80,39 +91,40 @@ public class Game  {
 		
 	}
 	
-	public static void attack() {
-		
-		System.out.println("Last player : " + players.getLast());
-		
-		while (!gameOver) {
-			for (Player p : players) {
-				System.out.println("Your turn to attack, " + p.getName());
-				
-				
-				System.out.println("Please enter the X-coordinates you would like to attack: ");
-				int x = scan.nextInt();
-				System.out.println("Please enter the Y-coordinates you would like to attack: ");
-				int y = scan.nextInt(); 
-				
-				
-				while(x > 9 || x < 0 || y > 9 || y < 0) {
-					System.out.println("You cannot attack coordinates outside the grid.");				
-					System.out.println("Please enter the X-coordinates you would like to attack: ");
-					x = scan.nextInt();
-					System.out.println("Please enter the Y-coordinates you would like to attack: ");
-					y = scan.nextInt(); 
-					
-				}
-				
+	public void attack(Player player) {
+		boolean HIT = true;
+		boolean WIN = true;
+		boolean AGAIN = true;
+			
+		if (player.getID() == 1) {
+			System.out.println("Your turn to attack, " + player1.getName());		
+			
+			System.out.println("Please enter the coordinates you would like to attack (enter 'x y'): ");
+			Point attack = new Point(scan.nextInt(), scan.nextInt());
+			
+			if (player2.attacked(attack) == AGAIN) {		
+				System.out.println();
+				System.out.println("Please enter the coordinates you would like to attack (enter 'x y'): ");
+				attack = new Point(scan.nextInt(), scan.nextInt());
 			}
+			else if (player2.attacked(attack) == HIT) {
+				System.out.println("You hit a ship at grid " + attack);
+				while (player2.attacked(attack) == HIT) {
+					player2.hit(attack);
+					System.out.println("You hit a ship at grid " + attack);
+					System.out.println();
+					System.out.println("Please enter the coordinates you would like to attack (enter 'x y'): ");
+					attack = new Point(scan.nextInt(), scan.nextInt());
+				} 
+			}			
+			else if (player2.attacked(attack) == WIN) {
+				gameOver = true;
+			}
+			System.out.println("You missed.");
+			
+			
+		} else if (player.getID() == 2) {
+			
 		}
-	}
-	
-	public void hitAttack(int x, int y, String[][] grid) {
-		
-	}
-	
-	public void alreadyHit(int x, int y, String[][] grid) {
-		
 	}
 }
