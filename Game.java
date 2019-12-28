@@ -1,15 +1,12 @@
 package battleships;
 
-import java.awt.Point;
 import java.util.*;
 
 public class Game  {
 	public static boolean gameOver = false;
 	public static boolean playerWin;
-	public static int playernbr = 2;
 	public static char t;
-	public static final int rowSize = 10;
-	public static final int colSize = 10;
+	public static int playernbr = 2;
 	public String name = null;
 	public int score = 0;
 	public int hitrate = 0;
@@ -37,18 +34,18 @@ public class Game  {
 		System.out.println();
 		
 		//Creates ship
-		for (int i = 0; i < playernbr; i++) {
-			newPlayer(i);
+		for (int i = 1; i <= playernbr; i++) {
+			game.newPlayer(i);
 		}
 		
-		//places ships for players
+		//makes grid and places ships for players
 		for (Player p: players) {
-			p.placeShips();
+			p.makeGrid();
 		}
 		
 		while (!gameOver) {
 			for (Player p: players) {
-				attack(p);
+				game.attack(p);
 			}
 		}
 	}
@@ -71,7 +68,9 @@ public class Game  {
 	}
 	
 	public void attack(Player player) {
+		for (int i = 0; i < playernbr; i++) {
 			
+		}
 		player.action();
 	}
 }

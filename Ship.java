@@ -1,15 +1,12 @@
 package battleships;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Ship {
 	private String shipName;
 	private int shipSize;
 	private int shipLives;
 	private boolean shipSunk;
 	private Position position;
-    private List<Ship> ships = new ArrayList<>();
+    //private List<Ship> ship = new ArrayList<>();
 	
 	public Ship(String shipName, int shipSize, int shipLives, boolean shipSunk, Position position) {
 		this.shipName = shipName;
@@ -25,10 +22,6 @@ public class Ship {
 
 	public void setPosition(Position position) {
 		this.position = position;
-	}
-
-	public List<Ship> ships() {
-		return ships;
 	}
 	
 	public String getShipName() {

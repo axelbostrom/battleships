@@ -3,6 +3,7 @@ package battleships;
 import java.util.*;
 
 public class Menu implements MenuItem {
+	public Scanner scan = new Scanner(System.in);
 	
 	protected String title;
 	List<MenuItem> items;
@@ -38,7 +39,6 @@ public class Menu implements MenuItem {
             }
             System.out.println(counter + ": " + item.getTitle());
         }
-        Scanner scan = new Scanner(System.in);
         int a = scan.nextInt();
         toExecute = items.get(a);
         toExecute.execute();
