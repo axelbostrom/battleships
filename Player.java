@@ -10,6 +10,7 @@ public class Player {
 	public static int pshipSize = 5; // size of ships
 	public static int pshipAmount = 2;
 	protected int id;
+	protected int health;
     private List<Ship> ships = new ArrayList<>();
     public Scanner scan = new Scanner(System.in);
 	private static final int rowSize = 10;
@@ -18,9 +19,10 @@ public class Player {
 	private String[][] attackGrid = new String[rowSize][colSize];
 	protected int playerLife;
 	
-	public Player(String name, int id, int score, int hitrate) {
+	public Player(String name, int health, int id, int score, int hitrate) {
 		super();
 		this.setName(name);
+		this.setHealth(health);
 		this.setID(id);
 		this.setScore(score);
 		this.setHitrate(hitrate);
@@ -39,7 +41,15 @@ public class Player {
 	}
 	
 	public void setID(int id) {
-		this.id=id;
+		this.id = id;
+	}
+	
+	public int getHealth() {
+		return health;
+	}
+	
+	public void setHealth(int health) {
+		this.health = health;
 	}
 
 	public int getScore() {
@@ -140,51 +150,6 @@ public class Player {
             }
         }
     }
-			
-			/* try {
-				System.out.println("Please enter the name for your ship.");
-				shipName = scan.next();
-				System.out.println();
-				System.out.println("Please enter the starting x-coordinate for your ship, " + shipName + ".");
-				int x = scan.nextInt();
-				System.out.println("Please enter the starting y-coordinate for your ship, " + shipName + ".");
-				int y = scan.nextInt();
-				
-				while (((x > colSize) || (x < 0)) || ((y > rowSize) || (y < 0)) || (grid[x][y]== "X")) {
-					if (grid[x][y]== "X") {
-						System.out.println("You cannot place a ship on top of another.");
-						System.out.println();
-					} else {
-						System.out.println("Not able to place ships outside of the grid.");
-						System.out.println();
-					}
-					System.out.println("Please enter X cooridinate for " + shipName + ".");
-					x = scan.nextInt();		
-					System.out.println("Please enter Y cooridinate for " + shipName + ".");
-					y = scan.nextInt();
-				}
-				System.out.println("Please enter the size of your ship, " + shipName);
-				shipSize = scan.nextInt();
-				
-				while ((shipSize > 5) && (shipSize < 0)) {
-					System.out.println("Incorrect size, the ship has to be between 1-5 units.");
-					shipSize = scan.nextInt();				
-				}
-				
-				System.out.println("Would you like to place your ship facing horizontally or vertically?");
-				System.out.println("Answer H or V");
-				String dir = scan.next();
-
-				while (!(dir.equals("H")) 
-						&& !(dir.equals("V"))) {
-					System.out.println("Incorrect input, only use H or V");
-					dir = scan.next();
-						}
-					
-
-				} catch (InputMismatchException e) {
-					
-				} */
 	
 	//launches two grids, one for player to place ships and one to attack
     public void makeGrid(String[][] grid) {
@@ -227,21 +192,6 @@ public class Player {
         }
         printMap(grid);
     }
-        
-        /*if (from.getY() <=  to.getY()) {
-	        for(int i = (int) from.getY(); i <= to.getY(); i++) {
-	            for(int j = (int) from.getX(); j <= to.getX(); j++) {
-	                grid[i][j] = "X";
-	            }
-	        }
-        }
-        else if (to.getY() <= from.getY()) {
-	        for(int i = (int) to.getY(); i <= (int) from.getY(); i++) {
-	            for(int j = (int) to.getX(); j <= from.getX(); j++) {
-	                grid[i][j] = "X";
-	            }
-	        } 
-        }*/
 	
     public boolean isPositionOccupied(Position position, String[][] grid) {
         boolean isOccupied = false;
@@ -260,7 +210,6 @@ public class Player {
     }
     
     //Too add class that prevents players from placing ships to close to other ships
-    
     public boolean isShipTooClose(Position position, String[][] grid) {
     	boolean tooClose = false;
     	Point from = position.getFrom();
@@ -277,33 +226,8 @@ public class Player {
     	return tooClose;
     }
     
-    public boolean attacked(Point z) {
-    	int x = (int) z.getX(); 
-    	int y = (int) z.getY();
-    	boolean HIT = true;
-    	boolean MISS = true;
-    	boolean WIN = true;
-    	boolean AGAIN = true;
+    public boolean action() {
     	
-    	if (playerGrid[x][y] == "X") {
-    		playerGrid[x][y] = "H";
-    		playerLife--;
-    		if (playerLife == 0) {
-    			return WIN;
-    		}
-    		return HIT;
-    	}
-    	else if (playerGrid[x][y] == "~") {
-    		playerGrid[x][y] = "O";
-    		return MISS;
-    	}
-    	return AGAIN;
-    }
-    
-    public void hit(Point hit) {
-    	int x = (int) hit.getX(); 
-    	int y = (int) hit.getY();
-    	
-    	attackGrid[x][y] = "H";
+    	return false;
     }
 }
