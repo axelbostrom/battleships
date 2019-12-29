@@ -10,6 +10,9 @@ public class Player {
 	protected int id;
 	protected int health;
     public Scanner scan = new Scanner(System.in);
+    private Map<Point, Boolean> targetHistory;
+    private Grid grid;
+    
 	
 	public Player(String name, int health, int id, int score, int hitrate) {
 		super();
@@ -66,7 +69,8 @@ public class Player {
 	public String toString() {
 		return "Name: " + getName() + ". " + "\n"
 				+ "Score: " +  getScore() + " points. " + "\n"
-				+ "Hitrate: " + getHitrate() + " procent hitrate." + "\n";
+				+ "Hitrate: " + getHitrate() + " procent hitrate." + "\n"
+				+ "HP: " + getHealth() + "  HP." + "\n";
 	}
 	
 	public String printName() {
@@ -79,11 +83,37 @@ public class Player {
 		for (int i = 0; i < Constants.pshipAmount; i++) {
 			grid.placeShips(i);
 		}
+		setHealth(4);
 	}
     
-    public boolean action() {
-    	
-    	
-    	return false;
+    public void turnToPlay(Player opponent) throws NullPointerException {
+        System.out.printf("%n%nPlayer %d, Choose coordinates you want to hit (x y) ", id);
+        Point point = new Point(scan.nextInt(), scan.nextInt());
+
+        while(targetHistory.get(point) != null) {
+            System.out.print("This position has already been tried");
+            point = new Point(scan.nextInt(), scan.nextInt());
+        }
+        attack(point, opponent);
+    } 
+    
+    private void attack(Point point, Player opponent) {
+        Ship ship = opponent.grid.targetShip(point);
+        boolean isShipHit = (ship != null) ? true : false;
+
+        if(isShipHit) {
+            ship.shipWasSunk();
+            opponent.decrementLiveByOne();
+        }
+        targetHistory.put(point, isShipHit);
+        System.out.printf("Player %d, targets (%d, %d)",
+                id,
+                (int)point.getX(),
+                (int)point.getY());
+        System.out.println("...and " + ((isShipHit) ? "HITS!" : "misses..."));
+    }
+    
+    public void decrementLiveByOne() {
+        health--;
     }
 }

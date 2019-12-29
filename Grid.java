@@ -63,10 +63,19 @@ public class Grid {
             try {
             	System.out.println("Please enter the name of your " + nbr + " ship.");
             	shipName = scan.next();
-            	System.out.println("Please enter the starting coordinates for " + shipName + " (type 'x y'): ");
-                Point from = new Point(scan.nextInt(), scan.nextInt());
-                System.out.println("Please enter the ending coordinates for " + shipName + " (type 'x y'): ");
-                Point to = new Point(scan.nextInt(), scan.nextInt());
+            	System.out.println("Please enter the starting X-coordinates for " + shipName +".");
+                int fromX = scan.nextInt();
+              	System.out.println("Please enter the starting Y-coordinates for " + shipName +".");
+                int fromY = scan.nextInt();
+                
+                Point from = new Point(fromX, fromY);
+                
+            	System.out.println("Please enter the ending X-coordinates for " + shipName +".");
+                int toX = scan.nextInt();
+              	System.out.println("Please enter the ending Y-coordinates for " + shipName +".");
+                int toY = scan.nextInt();
+                
+                Point to = new Point(toX, toY);
 
                 while((Utils.distanceBetweenPoints(from, to) > 5)) {
                     System.out.printf("Your ship cannot be longer than 5 units. Try again.");
@@ -90,7 +99,6 @@ public class Grid {
                 ship.setShipName(shipName);
                 ship.setPosition(position);
                 ship.setShipSize(shipSize);
-                ship.setShipLives(shipSize);
                 ship.setShipLives(shipSize);
         		drawShips(position, grid);
                 isShipPlacementLegal = true;
@@ -166,5 +174,31 @@ public class Grid {
     	}
     	return tooClose;
     }
+    
+    public Ship targetShip(Point point) {
+        boolean isHit = false;
+        Ship hitShip = null;
+        for(int i = 0; i < ships.toString().length(); i++) {
+            Ship ship = ships.get(i);
+            if(ship.getPosition() != null) {
+                if(Utils.isPointBetween(point, ship.getPosition())) {
+                    isHit = true;
+                    hitShip = ship;
+                    break;
+                }
 
+            }
+        }
+        final String result = isHit ? "@":"O";
+        updateShipOnBoard(point, result);
+        printMap(grid);
+
+        return (isHit) ? hitShip : null;
+    }
+    
+    private void updateShipOnBoard(Point point, final String result) {
+        int x = (int) point.getX() - 1;
+        int y = (int) point.getY() - 1;
+        grid[y][x] = result;
+    }
 }

@@ -33,44 +33,50 @@ public class Game  {
 		System.out.println("========================");
 		System.out.println();
 		
-		//Creates ship
-		for (int i = 1; i <= playernbr; i++) {
-			game.newPlayer(i);
-		}
+		//Creates player
+		game.newPlayer();
 		
-		//makes grid and places ships for players
-		for (Player p: players) {
-			p.makeGrid();
-		}
+		game.start();
 		
-		while (!gameOver) {
-			for (Player p: players) {
-				game.attack(p);
-			}
-		}
 	}
     
-	public void newPlayer(int nbr) {	
-		String name = null;
-		int score = 0;
-		int hitrate = 0;
-		int id = 0;
-		int health = 0;
-		Player player = new Player(name, health, id, score, hitrate);
-		players.add(player);
-		
-		System.out.println("Player " + nbr + ", please enter your name: ");
-		player.setName(scan.next());
-		player.setID(nbr);
-		System.out.println();
-		System.out.println("Welcome " + player.getName() + "!");
-		System.out.println();
+	public void newPlayer() {	
+		for (int i = 1; i <= playernbr; i++) {
+			String name = null;
+			int score = 0;
+			int hitrate = 0;
+			int id = 0;
+			int health = 0;
+			Player player = new Player(name, health, id, score, hitrate);
+			players.add(player);
+			
+			System.out.println("Player " + i + ", please enter your name: ");
+			name = scan.next();
+			player.setName(name);
+			player.setID(playernbr);
+			System.out.println();
+			System.out.println("Welcome " + player.getName() + "!");
+			System.out.println();
+			player.makeGrid();
+		}
 	}
 	
-	public void attack(Player player) {
-		for (int i = 0; i < playernbr; i++) {
-			
-		}
-		player.action();
+    public void start() {
+        int i = 0;
+        int j = 1;
+        int size = players.toString().length();
+        Player player = null;
+        
+        System.out.println(players.get(0));
+        System.out.println(players.get(1));
+
+        while(players.get(0).getHealth() > 0 && players.get(1).getHealth() > 0) {
+            players.get(i++ % size).turnToPlay(players.get(j++ % size));
+            player = (players.get(0).getHealth() < players.get(1).getHealth()) ?
+                    players.get(1):
+                    players.get(0);
+        }
+
+        System.out.printf("Congrats, you won!");
 	}
 }
