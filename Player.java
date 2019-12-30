@@ -22,11 +22,10 @@ public class Player {
 		this.setScore(score);
 		this.setHitrate(hitrate);
 	}
-	
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -67,19 +66,15 @@ public class Player {
 	}
 	
 	public String toString() {
-		return "Name: " + getName() + ". " + "\n"
+		return "ID" + getID() + ". " + "\n"
 				+ "Score: " +  getScore() + " points. " + "\n"
 				+ "Hitrate: " + getHitrate() + " procent hitrate." + "\n"
 				+ "HP: " + getHealth() + "  HP." + "\n";
 	}
 	
-	public String printName() {
-		return getName();
-	}
-	
 	public void makeGrid() {
 		Grid grid = new Grid();
-		System.out.println("The seas are currently empty, get ready to place your ships, " + getName());
+		System.out.println("The seas are currently empty, get ready to place your ships, player " + getID());
 		for (int i = 0; i < Constants.pshipAmount; i++) {
 			grid.placeShips(i);
 		}
@@ -87,7 +82,7 @@ public class Player {
 	}
     
     public void turnToPlay(Player opponent) throws NullPointerException {
-        System.out.printf("%n%nPlayer %d, Choose coordinates you want to hit (x y) ", id);
+        System.out.println("Player " + opponent.getID() +  " choose coordinates you want to hit (x y): ");
         Point point = new Point(scan.nextInt(), scan.nextInt());
 
         while(targetHistory.get(point) != null) {
@@ -102,7 +97,7 @@ public class Player {
         boolean isShipHit = (ship != null) ? true : false;
 
         if(isShipHit) {
-            ship.shipWasSunk();
+            ship.shipHit();
             opponent.decrementLiveByOne();
         }
         targetHistory.put(point, isShipHit);

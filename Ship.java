@@ -1,16 +1,16 @@
 package battleships;
 
 public class Ship {
-	private String shipName;
 	private int shipSize;
 	private int shipLives;
+	private String shipnbr;
 	private boolean shipSunk;
 	private Position position;
     //private List<Ship> ship = new ArrayList<>();
 	
-	public Ship(String shipName, int shipSize, int shipLives, boolean shipSunk, Position position) {
-		this.shipName = shipName;
+	public Ship(int shipSize, String shipnbr, int shipLives, boolean shipSunk, Position position) {
 		this.shipSize = shipSize;
+		this.shipnbr = shipnbr;
 		this.shipLives = shipLives;
 		this.shipSunk = false;
 		this.position = position;
@@ -24,12 +24,12 @@ public class Ship {
 		this.position = position;
 	}
 	
-	public String getShipName() {
-		return shipName;
+	public String getShipnbr() {
+		return shipnbr;
 	}
 
-	public void setShipName(String shipName) {
-		this.shipName = shipName;
+	public void setShipnbr(String shipnbr) {
+		this.shipnbr = shipnbr;
 	}
 
 	public int getShipSize() {
@@ -56,10 +56,10 @@ public class Ship {
 		this.shipSunk = shipSunk;
 	}
 	
-	public void shipWasSunk() {
+	public void shipHit() {
 		if (shipLives == 0) {
 			shipSunk = true;
-			System.out.println("Good job! You sunk the " + shipName + ".");
+			System.out.println("Good job! You sunk a ship at position " + getPosition());
 			return;
 		}
 		shipLives--;

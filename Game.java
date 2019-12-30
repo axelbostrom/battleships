@@ -36,7 +36,7 @@ public class Game  {
 		//Creates player
 		game.newPlayer();
 		
-		game.start();
+		game.play();
 		
 	}
     
@@ -61,22 +61,22 @@ public class Game  {
 		}
 	}
 	
-    public void start() {
+    public void play() {
         int i = 0;
         int j = 1;
         int size = players.toString().length();
         Player player = null;
-        
-        System.out.println(players.get(0));
-        System.out.println(players.get(1));
 
-        while(players.get(0).getHealth() > 0 && players.get(1).getHealth() > 0) {
-            players.get(i++ % size).turnToPlay(players.get(j++ % size));
-            player = (players.get(0).getHealth() < players.get(1).getHealth()) ?
-                    players.get(1):
-                    players.get(0);
+        while (!gameOver) {
+        	while (players.get(0).getHealth() > 0 && players.get(1).getHealth() > 0) {
+        		players.get(i++ % size).turnToPlay(players.get(j++ % size));
+                player = (players.get(0).getHealth() < players.get(1).getHealth()) ?
+                        players.get(1):
+                        players.get(0);
+        	}
+        	gameOver = true;
         }
+        System.out.println("Congrats, " + player.getName() + " you won!");
 
-        System.out.printf("Congrats, you won!");
 	}
 }
