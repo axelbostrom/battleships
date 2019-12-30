@@ -53,7 +53,7 @@ public class Game  {
 			System.out.println("Player " + i + ", please enter your name: ");
 			name = scan.next();
 			player.setName(name);
-			player.setID(playernbr);
+			player.setID(i);
 			System.out.println();
 			System.out.println("Welcome " + player.getName() + "!");
 			System.out.println();
@@ -66,17 +66,21 @@ public class Game  {
         int j = 1;
         int size = players.toString().length();
         Player player = null;
-
-        while (!gameOver) {
-        	while (players.get(0).getHealth() > 0 && players.get(1).getHealth() > 0) {
-        		players.get(i++ % size).turnToPlay(players.get(j++ % size));
-                player = (players.get(0).getHealth() < players.get(1).getHealth()) ?
-                        players.get(1):
-                        players.get(0);
-        	}
-        	gameOver = true;
-        }
-        System.out.println("Congrats, " + player.getName() + " you won!");
-
-	}
+        
+	        while (!gameOver) {
+		        	while (players.get(0).getHealth() > 0 && players.get(1).getHealth() > 0) {
+			        	try {
+		        		players.get(i++ % size).turnToPlay(players.get(j++ % size));
+		                player = (players.get(0).getHealth() < players.get(1).getHealth()) ?
+		                        players.get(1):
+		                        players.get(0);
+			        	}
+		        	 catch (IndexOutOfBoundsException e) {
+			        	
+		        	 }
+	        	gameOver = true;
+		        	}
+	        System.out.println("Congrats, " + player.getName() + " you won!");
+	        }
+    }
 }

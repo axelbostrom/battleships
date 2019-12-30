@@ -81,31 +81,40 @@ public class Player {
 		setHealth(4);
 	}
     
-    public void turnToPlay(Player opponent) throws NullPointerException {
+    public void turnToPlay(Player opponent) {
         System.out.println("Player " + opponent.getID() +  " choose coordinates you want to hit (x y): ");
         Point point = new Point(scan.nextInt(), scan.nextInt());
 
-        while(targetHistory.get(point) != null) {
-            System.out.print("This position has already been tried");
-            point = new Point(scan.nextInt(), scan.nextInt());
+        try { 
+        	while(targetHistory.get(point) != null) {
+                System.out.print("This position has already been tried");
+                point = new Point(scan.nextInt(), scan.nextInt());
+        	}
+        } catch (NullPointerException e) {
+        	System.out.println("test");
         }
         attack(point, opponent);
     } 
     
     private void attack(Point point, Player opponent) {
-        Ship ship = opponent.grid.targetShip(point);
-        boolean isShipHit = (ship != null) ? true : false;
-
-        if(isShipHit) {
-            ship.shipHit();
-            opponent.decrementLiveByOne();
+        try {
+	    	Ship ship = opponent.grid.targetShip(point);
+	        boolean isShipHit = (ship != null) ? true : false;
+	
+	        if(isShipHit) {
+	            ship.shipHit();
+	            opponent.decrementLiveByOne();
+	        }
+	        targetHistory.put(point, isShipHit);
+	        System.out.printf("Player %d, targets (%d, %d)",
+	                id,
+	                (int)point.getX(),
+	                (int)point.getY());
+	        System.out.println("...and " + ((isShipHit) ? "HITS!" : "misses..."));
         }
-        targetHistory.put(point, isShipHit);
-        System.out.printf("Player %d, targets (%d, %d)",
-                id,
-                (int)point.getX(),
-                (int)point.getY());
-        System.out.println("...and " + ((isShipHit) ? "HITS!" : "misses..."));
+        catch (NullPointerException e) {
+        	
+        }
     }
     
     public void decrementLiveByOne() {
