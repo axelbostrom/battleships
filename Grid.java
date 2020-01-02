@@ -161,27 +161,31 @@ public class Grid {
     }
     
     public Ship targetShip(Point point) {
-        boolean isHit = false;
+    	System.out.println("kommer jag hit???");
         Ship hitShip = null;
         for(int i = 0; i < ships.toString().length(); i++) {
-            Ship ship = ships.get(i);
+        	System.out.println("Kommer jag hit==");
+        	Ship ship = ships.get(i);
             if(ship.getPosition() != null) {
                 if(Utils.isPointBetween(point, ship.getPosition())) {
-                    isHit = true;
                     hitShip = ship;
-                    break;
+                    String hit = "1";
+                    updateShipOnBoard(point, hit);
+                    printMap(grid);
+                    return hitShip;
                 }
             }
         }
-        final String result = isHit ? "@":"O";
-        updateShipOnBoard(point, result);
+        System.out.println("Kommer jag hit???");
+        String hit = "0";
+        updateShipOnBoard(point, hit);
         printMap(grid);
-        return (isHit) ? hitShip : null;
+        return hitShip;
     }
     
     private void updateShipOnBoard(Point point, final String result) {
-        int x = (int) point.getX() - 1;
-        int y = (int) point.getY() - 1;
-        grid[y][x] = result;
+        int x = (int) point.getX();
+        int y = (int) point.getY();
+        grid[x][y] = result;
     }
 }

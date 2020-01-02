@@ -10,7 +10,7 @@ public class Player {
 	protected int id;
 	protected int health;
     public Scanner scan = new Scanner(System.in);
-    private Map<Point, Boolean> targetHistory;
+    private Map<Point, Boolean> targetHistory = new HashMap<>();
     private Grid grid;
     
 	
@@ -82,39 +82,37 @@ public class Player {
 	}
     
     public void turnToPlay(Player opponent) {
-        System.out.println("Player " + opponent.getID() +  " choose coordinates you want to hit (x y): ");
+        System.out.println("Player " + getID() +  " choose coordinates you want to hit (x y): ");
         Point point = new Point(scan.nextInt(), scan.nextInt());
 
         try { 
         	while(targetHistory.get(point) != null) {
-                System.out.print("This position has already been tried");
+                System.out.println("This position has already been tried, try again (x y); ");
                 point = new Point(scan.nextInt(), scan.nextInt());
         	}
         } catch (NullPointerException e) {
-        	System.out.println("test");
+        	System.out.println("TurnToPlay nullpointer");
+        	attack(point, opponent);
         }
         attack(point, opponent);
     } 
     
     private void attack(Point point, Player opponent) {
-        try {
-	    	Ship ship = opponent.grid.targetShip(point);
-	        boolean isShipHit = (ship != null) ? true : false;
-	
-	        if(isShipHit) {
-	            ship.shipHit();
-	            opponent.decrementLiveByOne();
-	        }
-	        targetHistory.put(point, isShipHit);
-	        System.out.printf("Player %d, targets (%d, %d)",
-	                id,
-	                (int)point.getX(),
-	                (int)point.getY());
-	        System.out.println("...and " + ((isShipHit) ? "HITS!" : "misses..."));
+		System.out.println(opponent.grid.targetShip(point));
+    	Ship ship = opponent.grid.targetShip(point);
+    			
+        boolean isShipHit = (ship != null) ? true : false;
+
+        if(isShipHit) {
+            ship.shipHit();
+            opponent.decrementLiveByOne();
         }
-        catch (NullPointerException e) {
-        	
-        }
+        targetHistory.put(point, isShipHit);
+        System.out.printf("Player %d, targets (%d, %d)",
+                id,
+                (int)point.getX(),
+                (int)point.getY());
+        System.out.println("...and " + ((isShipHit) ? "HITS!" : "misses..."));
     }
     
     public void decrementLiveByOne() {
