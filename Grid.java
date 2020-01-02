@@ -174,23 +174,24 @@ public class Grid {
     }
     
     public Ship targetShip(Point point) {
-    	boolean isHit = false;
         Ship hitShip = null;
         for(int i = 0; i < ships.toString().length(); i++) {
         	Ship ship = ships.get(i);
-        	System.out.println("ShipLives: " + ship.getShipLives());
+        	
             if(ship.getPosition() != null) {
                 if(Utils.isPointBetween(point, ship.getPosition())) {
-                	isHit = true;
                     hitShip = ship;
+                    String result = "1";
+                    updateShipOnBoard(point, result, attackGrid);
+                    printMap(attackGrid);
                     break;
                 }
+                String result = "0";
+                updateShipOnBoard(point, result, attackGrid);
+                printMap(attackGrid);
+                return hitShip;
             }
         }
-        
-        String result = isHit ? "1":"0";
-        updateShipOnBoard(point, result, attackGrid);
-        printMap(attackGrid);
         return hitShip;
     }
     

@@ -98,7 +98,7 @@ public class Player {
     } 
     
     private void attack(Point point, Player opponent) {
-    	Ship ship = opponent.grid.targetShip(point);		
+    	Ship ship = opponent.grid.targetShip(point);	
         boolean isShipHit = ship != null;
 
         if(isShipHit) {
@@ -106,10 +106,7 @@ public class Player {
             health--;
         }
         targetHistory.put(point, isShipHit);
-        System.out.printf("Player %d, targets (%d, %d)",
-                id,
-                (int)point.getX(),
-                (int)point.getY());
+        System.out.printf("Player " + getID() +", targets (" + (int)point.getX() +", " + (int)point.getY() + "),");
         System.out.println("...and " + ((isShipHit) ? "HITS!" : "misses..."));
     }
 }
