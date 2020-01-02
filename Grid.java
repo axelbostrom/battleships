@@ -12,8 +12,8 @@ public class Grid {
 	protected int id;
 	protected int health;
     public Scanner scan = new Scanner(System.in);
-	private String[][] grid = new String[Constants.rowSize][Constants.colSize];
-	//private String[][] attackGrid = new String[rowSize][colSize];
+	private String[][] playerGrid = new String[Constants.rowSize][Constants.colSize];
+	private String[][] attackGrid = new String[Constants.rowSize][Constants.colSize];
 	protected int playerLife;
     private List<Ship> ships = new ArrayList<>();
     	
@@ -21,10 +21,23 @@ public class Grid {
     public Grid() {
         for(int i = 0; i < Constants.rowSize; i++) {
             for(int j = 0; j < Constants.rowSize; j++) {
-                grid[i][j] = "~";
+                playerGrid[i][j] = "~";
+                attackGrid[i][j] = "~";
             }
         }    
     }
+    
+	public int countX() {
+		int hp = 0;
+		for(int i = 0; i < Constants.rowSize; i++) {
+			for(int j = 0; j < Constants.rowSize; j++) {
+				if (playerGrid[i][j]== "X") {
+					hp++;	
+				}
+			}
+		}
+		return hp;
+	}
     
     public String shipNbr(int i) {	
     switch (i) {	
@@ -70,7 +83,7 @@ public class Grid {
                     to = new Point(scan.nextInt(), scan.nextInt());
                 }
                 position = new Position(from, to);           
-            	while (isPositionOccupied(position)) {
+            	while (isPositionOccupied(position, playerGrid)) {
             		 System.out.println("A ship already exists in that position. Try again.");
                      System.out.println("Please enter the starting coordinates for your " + nbr + " ship (type 'x y'): ");                 
                      from = new Point(scan.nextInt(), scan.nextInt());          
@@ -83,7 +96,7 @@ public class Grid {
                 ship.setPosition(position);
                 ship.setShipSize(shipSize);
                 ship.setShipLives(shipSize);
-        		drawShips(position);
+        		drawShips(position, playerGrid);
                 isShipPlacementLegal = true;
             } catch(IndexOutOfBoundsException e) {
                 System.out.println("Invalid coordinates, cannot place ships outside of the grid. Try again.");           
@@ -107,7 +120,7 @@ public class Grid {
         }
     }
     
-    private void drawShips(Position position) {
+    private void drawShips(Position position, String[][] grid) {
        Point from = position.getFrom();
        Point to = position.getTo();
        
@@ -124,10 +137,10 @@ public class Grid {
 	           }
 	       }
        }
-       printMap(grid);
+       printMap(playerGrid);
     }
 	
-    public boolean isPositionOccupied(Position position) {
+    public boolean isPositionOccupied(Position position, String[][] grid) {
         boolean isOccupied = false;
         Point from = position.getFrom();
         Point to = position.getTo();       
@@ -161,29 +174,27 @@ public class Grid {
     }
     
     public Ship targetShip(Point point) {
-    	System.out.println("kommer jag hit???");
+    	boolean isHit = false;
         Ship hitShip = null;
         for(int i = 0; i < ships.toString().length(); i++) {
-        	System.out.println("Kommer jag hit==");
         	Ship ship = ships.get(i);
+        	System.out.println("ShipLives: " + ship.getShipLives());
             if(ship.getPosition() != null) {
                 if(Utils.isPointBetween(point, ship.getPosition())) {
+                	isHit = true;
                     hitShip = ship;
-                    String hit = "1";
-                    updateShipOnBoard(point, hit);
-                    printMap(grid);
-                    return hitShip;
+                    break;
                 }
             }
         }
-        System.out.println("Kommer jag hit???");
-        String hit = "0";
-        updateShipOnBoard(point, hit);
-        printMap(grid);
+        
+        String result = isHit ? "1":"0";
+        updateShipOnBoard(point, result, attackGrid);
+        printMap(attackGrid);
         return hitShip;
     }
     
-    private void updateShipOnBoard(Point point, final String result) {
+    private void updateShipOnBoard(Point point, final String result, String[][] grid) {
         int x = (int) point.getX();
         int y = (int) point.getY();
         grid[x][y] = result;

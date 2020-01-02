@@ -11,7 +11,7 @@ public class Player {
 	protected int health;
     public Scanner scan = new Scanner(System.in);
     private Map<Point, Boolean> targetHistory = new HashMap<>();
-    private Grid grid;
+    private Grid grid = new Grid();
     
 	
 	public Player(String name, int health, int id, int score, int hitrate) {
@@ -73,12 +73,12 @@ public class Player {
 	}
 	
 	public void makeGrid() {
-		Grid grid = new Grid();
 		System.out.println("The seas are currently empty, get ready to place your ships, player " + getID());
 		for (int i = 0; i < Constants.pshipAmount; i++) {
 			grid.placeShips(i);
 		}
-		setHealth(4);
+		setHealth(grid.countX());
+		System.out.println(getHealth());
 	}
     
     public void turnToPlay(Player opponent) {
@@ -98,14 +98,12 @@ public class Player {
     } 
     
     private void attack(Point point, Player opponent) {
-		System.out.println(opponent.grid.targetShip(point));
-    	Ship ship = opponent.grid.targetShip(point);
-    			
-        boolean isShipHit = (ship != null) ? true : false;
+    	Ship ship = opponent.grid.targetShip(point);		
+        boolean isShipHit = ship != null;
 
         if(isShipHit) {
             ship.shipHit();
-            opponent.decrementLiveByOne();
+            health--;
         }
         targetHistory.put(point, isShipHit);
         System.out.printf("Player %d, targets (%d, %d)",
@@ -113,9 +111,5 @@ public class Player {
                 (int)point.getX(),
                 (int)point.getY());
         System.out.println("...and " + ((isShipHit) ? "HITS!" : "misses..."));
-    }
-    
-    public void decrementLiveByOne() {
-        health--;
     }
 }
