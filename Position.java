@@ -4,15 +4,13 @@ import java.awt.Point;
 public class Position {
 	private Point from;
 	private Point to;
-	private int numCols = 10;
-	private int numRows = 10;
 	
 	public Position(Point from, Point to) throws ArrayIndexOutOfBoundsException {
 		if (
-				from.getX() > numCols || from.getX() < 0
-				|| from.getY() > numRows || from.getY() < 0
-				|| to.getX() > numCols || to.getX() < 0
-				|| to.getY() > numRows || to.getY() < 0) {
+				from.getX() > Constants.gridSize || from.getX() < 0
+				|| from.getY() > Constants.gridSize || from.getY() < 0
+				|| to.getX() > Constants.gridSize || to.getX() < 0
+				|| to.getY() > Constants.gridSize || to.getY() < 0) {
 			 
 		}
 		this.from = from;

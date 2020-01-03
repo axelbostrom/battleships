@@ -6,7 +6,6 @@ public class Ship {
 	private String shipnbr;
 	private boolean shipSunk;
 	private Position position;
-    //private List<Ship> ship = new ArrayList<>();
 	
 	public Ship(int shipSize, String shipnbr, int shipLives, boolean shipSunk, Position position) {
 		this.shipSize = shipSize;

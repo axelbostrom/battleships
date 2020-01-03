@@ -6,32 +6,26 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Grid {
-	protected String name;
-	protected int score;
-	protected int hitrate;
-	protected int id;
-	protected int health;
-    public Scanner scan = new Scanner(System.in);
-	private String[][] playerGrid = new String[Constants.rowSize][Constants.colSize];
-	private String[][] attackGrid = new String[Constants.rowSize][Constants.colSize];
-	protected int playerLife;
+    private Scanner scan = new Scanner(System.in);
+	private String[][] playerGrid = new String[Constants.gridSize][Constants.gridSize];
+	private String[][] attackGrid = new String[Constants.gridSize][Constants.gridSize];
     private List<Ship> ships = new ArrayList<>();
     	
 	//launches two grids, one for player to place ships and one to attack
     public Grid() {
-        for(int i = 0; i < Constants.rowSize; i++) {
-            for(int j = 0; j < Constants.rowSize; j++) {
-                playerGrid[i][j] = "~";
-                attackGrid[i][j] = "~";
+        for(int i = 0; i < Constants.gridSize; i++) {
+            for(int j = 0; j < Constants.gridSize; j++) {
+                playerGrid[i][j] = Constants.WAT_SYM;
+                attackGrid[i][j] = Constants.WAT_SYM;
             }
         }    
     }
     
 	public int countX() {
 		int hp = 0;
-		for(int i = 0; i < Constants.rowSize; i++) {
-			for(int j = 0; j < Constants.rowSize; j++) {
-				if (playerGrid[i][j]== "X") {
+		for(int i = 0; i < Constants.gridSize; i++) {
+			for(int j = 0; j < Constants.gridSize; j++) {
+				if (playerGrid[i][j] == Constants.SHIP_SYM) {
 					hp++;	
 				}
 			}
@@ -53,11 +47,9 @@ public class Grid {
     	case 3:
         	String fourth = "fourth";
     		return fourth;
-    	case 5:
-        	String fifth = "fifth";
-    		return fifth;
-    	}
-    return null;
+    	}		
+        String fifth = "fifth";
+    	return fifth;
     }
     
 	public void placeShips(int shipnbr) {
@@ -71,9 +63,9 @@ public class Grid {
 		ships.add(ship);
 		while (!isShipPlacementLegal) {
             try {            	
-            	System.out.println("Please enter the starting coordinates for your " + nbr +" ship (x y).");
+            	System.out.println("Please enter the starting coordinates for your " + nbr +" ship (x y):");
             	Point from = new Point(scan.nextInt(), scan.nextInt());           	             
-            	System.out.println("Please enter the ending coordinates for your " + nbr +" ship (x y).");
+            	System.out.println("Please enter the ending coordinates for your " + nbr +" ship (x y):");
                 Point to = new Point(scan.nextInt(), scan.nextInt());
                 while((Utils.distanceBetweenPoints(from, to) > 5)) {
                     System.out.printf("Your ship cannot be longer than 5 units. Try again.");
@@ -104,36 +96,53 @@ public class Grid {
 		}
     }
 	
-	//Prints map with ships
-    public void printMap(String[][] grid) {   	
+	//Prints map depending on map
+    public void printMap(String[][] grid) {
+    	System.out.println();
     	System.out.print("   ");
-        for(int i = 0; i < Constants.rowSize; i++) {
+        for(int i = 0; i < Constants.gridSize; i++) {
             System.out.print(i + "  ");
         }
         System.out.println();
-        for(int i = 0; i < Constants.rowSize; i++) {
+        for(int i = 0; i < Constants.gridSize; i++) {
             System.out.print((i) + "  ");
-            for(int j = 0; j < Constants.rowSize; j++) {
+            for(int j = 0; j < Constants.gridSize; j++) {
                 System.out.print(grid[i][j] + "  ");
             }
             System.out.println();
         }
+        System.out.println();
+    }
+    
+    //for printing playerGrid
+    public void playerGrid(String name) {   
+    	System.out.println();
+    	System.out.println(name + ", your ships.");
+    	System.out.println("===============================");
+    	printMap(attackGrid);
+    }
+    
+    //for printing attackGrid
+    public void attackGrid(String name) {   	
+    	System.out.println();
+    	System.out.println(name + ", your previous attacks.");
+    	System.out.println("===============================");
+    	printMap(attackGrid);
     }
     
     private void drawShips(Position position, String[][] grid) {
        Point from = position.getFrom();
        Point to = position.getTo();
-       
        if ((int) from.getY() <=  to.getY() && from.getX() <= to.getX()) {
     	   for(int i = (int) from.getX(); i <= to.getX(); i++) {
     		   for(int j = (int) from.getY(); j <= to.getY(); j++) {
-	               grid[i][j] = "X";
+	               grid[i][j] = Constants.SHIP_SYM;
 	           }
 	       }
        } else if ((int) from.getY() >=  to.getY() && from.getX() >= to.getX()) {
 	       for(int i = (int) from.getX(); i >= to.getX(); i++) {
 	           for(int j = (int) from.getY(); j >= to.getY(); j++) {
-	               grid[i][j] = "X";
+	               grid[i][j] = Constants.SHIP_SYM;
 	           }
 	       }
        }
@@ -148,7 +157,7 @@ public class Grid {
         for(int i = (int) from.getY() - 1; i <= (int) to.getY() - 1; i++) {
             for(int j = (int) from.getX() - 1; j <= (int) to.getX() - 1; j++) {
                 try { 
-                	if(grid[i][j] == "X") {
+                	if(grid[i][j] == Constants.SHIP_SYM) {
                 		isOccupied = true;
                         break first;
                 	}        
@@ -161,7 +170,7 @@ public class Grid {
         for(int i = (int) from.getY() + 1; i <= (int) to.getY() + 1; i++) {
             for(int j = (int) from.getX() + 1; j <= (int) to.getX() + 1; j++) {
                 try {
-                	if(grid[i][j] == "X") {
+                	if(grid[i][j] == Constants.SHIP_SYM) {
                 		isOccupied = true;
                         break second;
                 	}          
@@ -176,18 +185,15 @@ public class Grid {
     public Ship targetShip(Point point) {
         Ship hitShip = null;
         for(int i = 0; i < ships.toString().length(); i++) {
-        	Ship ship = ships.get(i);
-        	
+        	Ship ship = ships.get(i); 	
             if(ship.getPosition() != null) {
                 if(Utils.isPointBetween(point, ship.getPosition())) {
                     hitShip = ship;
-                    String result = "1";
-                    updateShipOnBoard(point, result, attackGrid);
+                    updateShipOnBoard(point, Constants.HIT_SYM, attackGrid);
                     printMap(attackGrid);
                     break;
                 }
-                String result = "0";
-                updateShipOnBoard(point, result, attackGrid);
+                updateShipOnBoard(point, Constants.MISS_SYM, attackGrid);
                 printMap(attackGrid);
                 return hitShip;
             }

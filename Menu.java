@@ -22,16 +22,13 @@ public class Menu implements MenuItem {
     
     public void execute() {
     	int counter = -1;
-    	//counter++;
         MenuItem toExecute = null;
         System.out.println(getTitle());
-        
         for (int i = 0; i < getTitle().length(); i++) {
         	String n = ("=");
         	System.out.print(n);
         }
-        System.out.println("");
-        
+        System.out.println();
         for(MenuItem item : items) {
         	counter++;
             if(item.getTitle().equals(this.getTitle())) {
@@ -51,43 +48,38 @@ public class Menu implements MenuItem {
     	Game game = new Game();
     	System.out.println("Welcome to Battleships!");
     	System.out.println();
-    	
         mainMenu.add(new AbstractMenuItem("Exit game") {
 	        public void execute() {
 	        	System.exit(1);
 	        }
         });
-    	
         mainMenu.add(new AbstractMenuItem("Play") {
 	        public void execute() {
+				Constants.printEmpty();
 	        	playGame.execute();
 	        }
-        });
-        
+        }); 
         mainMenu.add(new AbstractMenuItem("Scoreboard") {
 	        public void execute() {
+				Constants.printEmpty();
 	        	scoreBoard.execute();
 	        }
         });
-        
         playGame.add(new AbstractMenuItem("Main menu") {
 	        public void execute() {
 	        	mainMenu.execute();
 	        }
         });
-        
         playGame.add(new AbstractMenuItem("Player vs computer") {
 	        public void execute() {
-	        	game.runGame();
+	        	game.runGame(1);
 	        }
         });
-        
         playGame.add(new AbstractMenuItem("Player vs player") {
 	        public void execute() {
-	        	game.runGame();
+	        	game.runGame(2);
 	        }
         });
-        
         mainMenu.execute();
     }
 }
