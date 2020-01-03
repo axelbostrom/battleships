@@ -1,9 +1,7 @@
 package battleships;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Grid {
     private Scanner scan = new Scanner(System.in);
@@ -53,48 +51,67 @@ public class Grid {
     }
     
 	public void placeShips(int shipnbr) {
-		boolean isShipPlacementLegal = false;
     	int shipSize = 0;
     	int shipLives = 0;
     	boolean shipSunk = false;
     	Position position = null;	
     	String nbr = shipNbr(shipnbr);	
 		Ship ship = new Ship(shipSize, nbr, shipLives, shipSunk, position);
-		ships.add(ship);
-		while (!isShipPlacementLegal) {
-            try {            	
-            	System.out.println("Please enter the starting coordinates for your " + nbr +" ship (x y):");
-            	Point from = new Point(scan.nextInt(), scan.nextInt());           	             
-            	System.out.println("Please enter the ending coordinates for your " + nbr +" ship (x y):");
-                Point to = new Point(scan.nextInt(), scan.nextInt());
-                while((Utils.distanceBetweenPoints(from, to) > 5)) {
-                    System.out.printf("Your ship cannot be longer than 5 units. Try again.");
-                    System.out.println("Please enter the starting coordinates for your " + nbr + " ship (x y): ");
-                    from = new Point(scan.nextInt(), scan.nextInt());                
-                    System.out.println("Please enter the ending coordinates for your " + nbr + " ship (x y): ");
-                    to = new Point(scan.nextInt(), scan.nextInt());
-                }
-                position = new Position(from, to);           
-            	while (isPositionOccupied(position, playerGrid)) {
-            		 System.out.println("A ship already exists in that position. Try again.");
-                     System.out.println("Please enter the starting coordinates for your " + nbr + " ship (type 'x y'): ");                 
-                     from = new Point(scan.nextInt(), scan.nextInt());          
-                     System.out.println("Please enter the ending coordinates for yout " + nbr + " ship (type 'x y'): ");
-                     to = new Point(scan.nextInt(), scan.nextInt());
-                     position = new Position(from, to);
-            	}         	
-                shipSize = (int) Utils.distanceBetweenPoints(from, to);
-                ship.setShipnbr(nbr);
-                ship.setPosition(position);
-                ship.setShipSize(shipSize);
-                ship.setShipLives(shipSize);
-        		drawShips(position, playerGrid);
-                isShipPlacementLegal = true;
-            } catch(IndexOutOfBoundsException e) {
-                System.out.println("Invalid coordinates, cannot place ships outside of the grid. Try again.");           
-            }
+		ships.add(ship);  
+		
+    	System.out.println("Please enter the starting coordinates for your " + nbr +" ship (x y):");
+    	int x1 = scan.nextInt();
+    	int y1 = scan.nextInt();
+    	Point from = new Point(y1, x1);
+    	System.out.println("Please enter the ending coordinates for your " + nbr +" ship (x y):");
+    	int x2 = scan.nextInt();
+    	int y2 = scan.nextInt();    
+        Point to = new Point(y2, x2);
+        position = new Position(from, to);   
+		while (isOutsideGrid(from, to)) {
+			System.out.println("You cannot place ships outside the grid.");
+        	System.out.println("Please enter the starting coordinates for your " + nbr +" ship (x y):");
+        	x1 = scan.nextInt(); 
+        	y1 = scan.nextInt();
+        	from = new Point(y1, x1);
+        	System.out.println("Please enter the ending coordinates for your " + nbr +" ship (x y):");
+        	x2 = scan.nextInt();
+        	y2 = scan.nextInt();    
+            to = new Point(y2, x2);
+            position = new Position(from, to); 
 		}
-    }
+		while (Utils.distanceBetweenPoints(from, to) > 5) {
+			System.out.println("Ships cannot be longer than 5 units.");
+        	System.out.println("Please enter the starting coordinates for your " + nbr +" ship (x y):");
+        	x1 = scan.nextInt(); 
+        	y1 = scan.nextInt();
+        	from = new Point(y1, x1);
+        	System.out.println("Please enter the ending coordinates for your " + nbr +" ship (x y):");
+        	x2 = scan.nextInt();
+        	y2 = scan.nextInt();    
+            to = new Point(y2, x2);
+            position = new Position(from, to); 
+		}
+		while (isPositionOccupied(position, playerGrid)) {
+			System.out.println("You have to place ships atleast one grid from another.");
+        	System.out.println("Please enter the starting coordinates for your " + nbr +" ship (x y):");
+        	x1 = scan.nextInt(); 
+        	y1 = scan.nextInt();
+        	from = new Point(y1, x1);
+        	System.out.println("Please enter the ending coordinates for your " + nbr +" ship (x y):");
+        	x2 = scan.nextInt();
+        	y2 = scan.nextInt();    
+            to = new Point(y2, x2);
+            position = new Position(from, to); 
+		}
+    	System.out.println("kommer jag hit=?");
+        shipSize = (int) Utils.distanceBetweenPoints(from, to);
+        ship.setShipnbr(nbr);
+        ship.setPosition(position);
+        ship.setShipSize(shipSize);
+        ship.setShipLives(shipSize);
+		drawShips(position, playerGrid);
+	}
 	
 	//Prints map depending on map
     public void printMap(String[][] grid) {
@@ -147,6 +164,18 @@ public class Grid {
 	       }
        }
        printMap(playerGrid);
+    }
+    
+    public boolean isOutsideGrid(Point from, Point to) {
+    	boolean outside = false;
+    	if (from.getX() > 9 || from.getX() < 0 ||
+    			from.getY() > 9 || from.getY() < 0 ||
+    			to.getX() > 9 || to.getX() < 0 ||
+    			to.getY() > 9 || to.getY() < 0) {
+    		outside = true;
+    		return outside;
+    	}
+    	return outside;
     }
 	
     public boolean isPositionOccupied(Position position, String[][] grid) {
