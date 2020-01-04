@@ -19,5 +19,4 @@ public class Constants {
 			System.out.println("\n");
 		}
 	}
-	
 }

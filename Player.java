@@ -77,11 +77,19 @@ public class Player {
 	}
     
     public void turnToPlay(Player opponent) {
+    	System.out.println(getName() + " your turn.");
     	boolean action = true;
+    	String f = "Your previous attacks...";
     	while (action) {
-    		Grid grid = new Grid();
-    		grid.attackGrid(getName());
-	        System.out.println(getName() +  " choose coordinates you want to hit (x y): ");
+    		if (opponent.getHealth() == 0)
+    			break;
+    		System.out.println(f);
+            for (int i = 0; i < f.length(); i++) {
+            	String n = ("=");
+            	System.out.print(n);
+            }
+            opponent.grid.printAttackGrid();
+	        System.out.println("Choose the coordinates you want to attack (x y): ");
 	        Point point = new Point(scan.nextInt(), scan.nextInt());
         	while(targetHistory.get(point) != null) {
                 System.out.println("This position has already been tried, try again (x y); ");
@@ -92,19 +100,16 @@ public class Player {
     } 
     
     private boolean attack(Point point, Player opponent, boolean action) {
-    	Ship ship = opponent.grid.targetShip(point);	
+    	action = false;
+    	String name = getName();
+    	Ship ship = opponent.grid.targetShip(point, name);
         boolean isShipHit = ship != null;
         if(isShipHit) {
             ship.shipHit();
             opponent.health--;
             action = true;
-        }
-        else if(!isShipHit)
-        	action = false;     
+        }     
         targetHistory.put(point, isShipHit);
-        System.out.printf("Player " + getID() +", targets (" + (int)point.getX() +", " + (int)point.getY() + "),");
-        System.out.println("...and " + ((isShipHit) ? "HITS!" : "misses..."));
         return action;
-        
     }
 }

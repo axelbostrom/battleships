@@ -73,11 +73,13 @@ public class Menu implements MenuItem {
         playGame.add(new AbstractMenuItem("Player vs computer") {
 	        public void execute() {
 	        	game.runGame(1);
+	        	mainMenu.execute();
 	        }
         });
         playGame.add(new AbstractMenuItem("Player vs player") {
 	        public void execute() {
 	        	game.runGame(2);
+	        	mainMenu.execute();
 	        }
         });
         mainMenu.execute();

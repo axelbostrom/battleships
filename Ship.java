@@ -55,12 +55,13 @@ public class Ship {
 		this.shipSunk = shipSunk;
 	}
 	
-	public void shipHit() {
-		if (shipLives == 0) {
-			shipSunk = true;
-			System.out.println("Good job! You sunk a ship at position " + getPosition());
-			return;
-		}
+	public void reduceShipLives() {
 		shipLives--;
+	}
+	
+	public boolean shipHit() {
+		if (shipLives == 0)
+			return true;
+		return false;
 	}
 }

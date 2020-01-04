@@ -1,5 +1,6 @@
 package battleships;
 
+import java.awt.Point;
 import java.util.*;
 
 public class Game  {
@@ -32,7 +33,7 @@ public class Game  {
 		//Playernbr 1, launch 1 player and AI
 		if (playernbr == 1) {
 			newPlayer(playernbr);
-			CPlayer();
+			//CPlayer();
 		}
 		//Playernbr 2, launch 2 players, no AI
 		else if (playernbr == 2) {
@@ -45,9 +46,39 @@ public class Game  {
 		return;
 	}
 	
-	public void CPlayer() {
-		System.out.println("HEEEJ");
-	}
+	/*public void CPlayer() {
+		String name = "AI";
+		int score = 0;
+		int hitrate = 0;
+		int id = 2;
+		int health = 0;
+		Player Cplayer = new Player(name, health, id, score, hitrate);
+		players.add(Cplayer);
+		
+        int startmin = 0;
+        int startmax = 5;
+        int endmin = 5;
+        int endmax = 9;
+        int startrange = startmax - startmin;
+        int endrange = endmax - endmin;
+        for (int i = 1; i <= 2;) {
+            int rand1 = new Random().nextInt((startmax - startmin) + 1) + startmin;
+            int rand2 = new Random().nextInt((startmax - startmin) + 1) + startmin;
+            int rand3 = new Random().nextInt((endmax - endmin) + 1) + endmin;
+            int rand4 = new Random().nextInt((endmax - endmin) + 1) + endmin;
+            if(Math.abs(rand1 - rand3) <= 5 && Math.abs(rand2 - rand4) <=5){
+                if(!Grid.isPositionOccupied()) {
+                    System.out.println(rand1);
+                    System.out.println(rand2);
+                    Point from = new Point(rand1, rand2);
+                    System.out.println(rand3);
+                    System.out.println(rand4);
+                    Point to = new Point(rand3, rand4);
+                    i++;
+                }
+            }
+        }
+    } */
    
 	public void newPlayer(int playernbr) {	
 		for (int i = 1; i <= playernbr; i++) {
@@ -87,7 +118,7 @@ public class Game  {
 	        	}
 	        	gameOver = true;
         	}
-        System.out.println("Congrats, " + player.getName() + " you won!");   
+        System.out.println(player.getName() + " you have sunk all ships, you win!");   
         }
     }
 }
