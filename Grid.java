@@ -67,11 +67,7 @@ public class Grid {
         Point to = new Point(scan.nextInt(), scan.nextInt());
         position = new Position(from, to);
         
-        while (!isPointFreeForPlacement(position) || (isOutsideGrid(from, to)) 
-        		|| (Utils.distanceBetweenPoints(from, to) > 5) 
-        		|| ((to.getX() == from.getX() + 1) 
-        		|| (to.getY() == from.getY() + 1))) {
-        	
+        while (isPointFreeForPlacement(position) || (isOutsideGrid(from, to)) || isShipTooBig(from, to)) {	
         	System.out.println("Please enter the starting coordinates for your " + nbr +" ship (x y):");
         	from = new Point(scan.nextInt(), scan.nextInt());
         	System.out.println("Please enter the ending coordinates for your " + nbr +" ship (x y):");   
@@ -108,29 +104,40 @@ public class Grid {
     	printGrid(attackGrid);
     }
     
+    //fixa för ex (1, 1) och (1, 2)
+    
+    public boolean isShipTooBig(Point from, Point to) {
+    	if (Utils.distanceBetweenPoints(from, to) > 5 || ((to.getX() == from.getX() + 1) || (to.getY() == from.getY() + 1))) {
+    		System.out.println("The ship you tried to place is too big. Try again.");
+    		return true;
+    	}
+    	return false;
+    }
+    
     public boolean isOutsideGrid(Point from, Point to) {
-    	boolean outside = false;
     	if (from.getX() > 9 || from.getX() < 0 
     			||from.getY() > 9 || from.getY() < 0 
     			||to.getX() > 9 || to.getX() < 0 
     			|| to.getY() > 9 || to.getY() < 0) {
-    		outside = true;
     		System.out.println("Cannot place ships outside the grid. Try again.");
-    		return outside;
+    		return true;
     	}
-    	return outside;
+    	return false;
     }
+    
+    //Bounding box istället?
     
     public boolean isPointFreeForPlacement(Position position) {
     	Point f = position.getFrom();
     	Point t = position.getTo();
+    	
     	for (Point p: pointList) {
     		if (p.equals(f) || p.equals(t)) {
     			System.out.println("Cannot place ships on top of another ship! Try again.");
-    			return false;
+    			return true;
     		}
     	}
-    	return true;
+    	return false;
     }
     
     private void drawShips(Position position, String[][] grid) {
@@ -200,24 +207,8 @@ public class Grid {
 	public List<Point> addPoint(Point from, Point to) {
 		for (int i = (int) from.getX(); i <= (int) to.getX(); i++) {
 			for (int j = (int) from.getY(); j <= (int) to.getY(); j++) {
-				Point point = new Point(i, j);
-				Point point1 = new Point(i+1, j);
-				Point point2 = new Point(i, j+1);
-				Point point3 = new Point(i+1, j+1);
-				Point point4 = new Point(i-1, j);
-				Point point5 = new Point(i, j-1);
-				Point point6 = new Point(i-1, j-1);
-				Point point7 = new Point(i+1, j-1);
-				Point point8 = new Point(i-1, j+1);
-				pointList.add(point);
-				pointList.add(point1);
-				pointList.add(point2);
-				pointList.add(point3);
-				pointList.add(point4);
-				pointList.add(point5);
-				pointList.add(point6);
-				pointList.add(point7);
-				pointList.add(point8);
+				var point = List.of(new Point(i, j), new Point(i+1, j), new Point(i, j+1), new Point(i-1, j), new Point(i, j-1), new Point(i-1, j-1), new Point(i+1, j-1), new Point(i-1, j+1),  new Point(i+1, j+1));
+				pointList.addAll(point);
 			}
 		}
 		return pointList;

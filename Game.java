@@ -1,6 +1,5 @@
 package battleships;
 
-import java.awt.Point;
 import java.util.*;
 
 public class Game  {
