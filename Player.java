@@ -5,7 +5,6 @@ import java.awt.Point;
 
 public class Player {
 	protected String name;
-	protected int score;
 	protected float hitrate;
 	protected float damagerate;
 	protected float opponenthealth;
@@ -13,16 +12,15 @@ public class Player {
 	protected float shots = 0;
 	protected int id;
 	protected float health;
-    public Scanner scan = new Scanner(System.in);
+    private Scanner scan = new Scanner(System.in);
     private Map<Point, Boolean> targetHistory = new HashMap<>();
     private Grid grid = new Grid();
 	
-	public Player(String name, int health, int id, int score, int hitrate, float damagerate) {
+	public Player(String name, int health, int id, int hitrate, float damagerate) {
 		super();
 		this.setName(name);
 		this.setHealth(health);
 		this.setID(id);
-		this.setScore(score);
 		this.setHitrate(hitrate);
 	}
 	
@@ -48,14 +46,6 @@ public class Player {
 	
 	public void setHealth(int health) {
 		this.health = health;
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
 	}
 
 	public float getHitrate() {

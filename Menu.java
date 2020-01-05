@@ -1,12 +1,18 @@
 package battleships;
 
+import java.io.*;
 import java.util.*;
 
 public class Menu implements MenuItem {
-	public Scanner scan = new Scanner(System.in);
-	
 	protected String title;
-	List<MenuItem> items;
+	private Scanner scan = new Scanner(System.in);
+	private LinkedList<String> highscoreList = new LinkedList<String>();
+	private List<MenuItem> items;
+	
+	public Menu() {
+		
+	}
+	
 	public Menu(String title) {
 		items = new ArrayList<>();
 		this.title = title;
@@ -51,7 +57,7 @@ public class Menu implements MenuItem {
     	}
     }
     
-    public static void main(String[] args) {
+    public void launchMenu() {
     	Menu mainMenu = new Menu("Main Menu");
     	Menu playGame = new Menu("Play");
     	Menu scoreBoard = new Menu("Scoreboard");
@@ -94,4 +100,29 @@ public class Menu implements MenuItem {
         });
         mainMenu.execute();
     }
+    
+    public void highScoreList() throws FileNotFoundException, IOException {
+		InputStream highscore = new FileInputStream ("/eclipse-workspace/Sänksakepp/src/battleships/highscore.txt");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(highscore));
+	    while (reader.ready()) {
+	    	String line = reader.readLine();
+	    	if(!line.equals("")) {
+	    		highscoreList.add(line);
+	    	}
+	    }
+	    reader.close();
+    }
+    
+	public int checkHighscoreList(int shots) {
+		int scorePlace = 1;
+		for(String s : highscoreList) {
+	        String[] splitLine = s.split(":");
+	        int recordShots = Integer.parseInt(splitLine[2].trim());
+	        if(shots <= recordShots) {
+	        	return scorePlace;
+	        }
+	        scorePlace++;
+		}
+		return 0;
+	}
 }
