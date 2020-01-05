@@ -75,7 +75,8 @@ public class Game  {
     	System.out.println(player.getName() + " you have sunk all ships, you win!");
     	if(player.getHitrate() > 0) {
 			System.out.println("Congratulations! You made the highscore list!");
-			menu.saving(player.getHitrate(), player.getName());
+			int hitrate = (int) player.getHitrate();
+			menu.saving(hitrate, player.getName());
     	}
 		System.out.println("Returning to main menu.");
 		System.out.println();

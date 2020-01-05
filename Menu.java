@@ -94,7 +94,6 @@ public class Menu implements MenuItem {
 	        public void execute() throws IOException {
 	        	Constants.printEmpty();
 	        	game.runGame(1);
-	        	Constants.printEmpty();
 	        	mainMenu.execute();
 	        }
         });
@@ -102,7 +101,6 @@ public class Menu implements MenuItem {
 	        public void execute() throws IOException {
 	        	Constants.printEmpty();
 	        	game.runGame(2);
-	        	Constants.printEmpty();
 	        	mainMenu.execute();
 	        }
         });
@@ -159,7 +157,7 @@ public class Menu implements MenuItem {
 		return 0;
 	}
 	
-	public void saving(float hitrate, String playerName) throws IOException {
+	public void saving(int hitrate, String playerName) throws IOException {
 		highScoreList();
 		LinkedList<String> placeholder = new LinkedList<String>();
 		int checkShots = checkHighscoreList(hitrate);
@@ -177,7 +175,7 @@ public class Menu implements MenuItem {
 			placeholder.add(i + ". Name:" + splitLine[1] + ":" + splitLine[2]);
 			i++;
 		}
-//		highscoreList.clear();
+		highscoreList.clear();
 		for(String s : placeholder) {
 			highscoreList.add(s);
 		}
