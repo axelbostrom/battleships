@@ -100,6 +100,8 @@ public class Game  {
 	                players.get(1):
 	                players.get(0);
     		}
-    System.out.println(player.getName() + " you have sunk all ships, you win!");
+    	System.out.println(player.getName() + " you have sunk all ships, you win!");
+    	System.out.println("Returning to main menu.");
+    	System.out.println();
     }
 }

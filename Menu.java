@@ -21,6 +21,7 @@ public class Menu implements MenuItem {
     }
     
     public void execute() {
+		boolean inputCorrect = true;
     	int counter = -1;
         MenuItem toExecute = null;
         System.out.println(getTitle());
@@ -36,9 +37,18 @@ public class Menu implements MenuItem {
             }
             System.out.println(counter + ": " + item.getTitle());
         }
-        int a = scan.nextInt();
-        toExecute = items.get(a);
-        toExecute.execute();
+    	while (inputCorrect) {
+			try {
+	           int a = scan.nextInt();
+	           toExecute = items.get(a);
+	           toExecute.execute();
+	           inputCorrect = false;
+			}
+	        catch (InputMismatchException e) {
+	        	System.out.println("Incorrect input. Only use numbers. Try again.");
+	        	scan.nextLine();
+	        }
+    	}
     }
     
     public static void main(String[] args) {
