@@ -1,5 +1,7 @@
 package battleships;
 
+import java.io.IOException;
+
 public abstract class AbstractMenuItem implements MenuItem {    
 	
 	private String title;    
@@ -8,7 +10,7 @@ public abstract class AbstractMenuItem implements MenuItem {
 		this.title = title;    
 		}    
 	
-	public abstract void execute();  
+	public abstract void execute() throws IOException;  
 	
 	public String getTitle() {        
 		return title;    

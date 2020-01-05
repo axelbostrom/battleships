@@ -11,12 +11,12 @@ public class Player {
 	protected float hit = 0;
 	protected float shots = 0;
 	protected int id;
-	protected float health;
-    private Scanner scan = new Scanner(System.in);
+	protected int health;
+    public Scanner scan = new Scanner(System.in);
     private Map<Point, Boolean> targetHistory = new HashMap<>();
     private Grid grid = new Grid();
 	
-	public Player(String name, int health, int id, int hitrate, float damagerate) {
+	public Player(String name, int health, int id, int hitrate, int damagerate) {
 		super();
 		this.setName(name);
 		this.setHealth(health);
@@ -40,7 +40,7 @@ public class Player {
 		this.id = id;
 	}
 	
-	public float getHealth() {
+	public int getHealth() {
 		return health;
 	}
 	
@@ -71,6 +71,13 @@ public class Player {
 		}
 		setHealth(grid.countX());
 	}
+	
+	public void makeComputerGrid() {
+		for (int i = 0; i < Constants.pshipAmount; i++) {
+			grid.placeComputerShips(i);
+		}
+		setHealth(grid.countX());
+	}
     
     public void turnToPlay(Player opponent) {
     	boolean inputCorrect = true;
@@ -96,7 +103,7 @@ public class Player {
 		        		System.out.println("Your hitrate is: " + getHitrate() + "%");
 		        		System.out.println("Your damagerate is: " + getDamagerate() + "%");
 		        	}
-			        System.out.println("Choose the coordinates you want to attack (x y): ");
+			        System.out.println(getName() + " choose the coordinates you want to attack (x y): ");
 				        Point point = new Point(scan.nextInt(), scan.nextInt());
 				    	while(targetHistory.get(point) != null) {
 				            System.out.println("This position has already been tried, try again (x y); ");
@@ -110,10 +117,25 @@ public class Player {
 	        	System.out.println("Incorrect input. Only use numbers. Try again.");
 	        	System.out.println();
 	        	scan.nextLine();
-
 	        }
         }
 	}
+    
+    public void ComputerTurnToPlay(Player opponent) {
+    	boolean action = true;
+		if (opponent.getHealth() == 0 || getHealth() == 0)
+			return;
+    	opponenthealth = opponent.grid.countX();
+	    while (action) {
+	    	if (opponent.getHealth() == 0 || getHealth() == 0)
+	    		break;
+			Point point = new Point(getRandomCoordinate(), getRandomCoordinate());
+			while(targetHistory.get(point) != null) {
+				point = new Point(getRandomCoordinate(), getRandomCoordinate());       
+			}
+			action = attack(point, opponent);
+	    }
+    }
     
     public boolean attack(Point point, Player opponent) {
     	shots++;
@@ -128,7 +150,6 @@ public class Player {
     	hitPercentage();
     	damagePercentage();
         targetHistory.put(point, isShipHit);
-        
         return action;
     }
     
@@ -143,9 +164,14 @@ public class Player {
     
     public float damagePercentage() {
     	if (hit != 0) {
-    		damagerate = (float) 100*(hit/opponenthealth);
+    		damagerate = 100*(hit/opponenthealth);
     		setDamagerate(damagerate);
     	}
 		return damagerate;
+    }
+
+    public int getRandomCoordinate() {
+    	int random = new Random().nextInt((9 - 0) + 1) + 0;
+    	return random;
     }
 }

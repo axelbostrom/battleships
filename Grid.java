@@ -71,6 +71,7 @@ public class Grid {
 		        Point to = new Point(scan.nextInt(), scan.nextInt());
 		        position = new Position(from, to);
 		        while (isPointFreeForPlacement(from, to) || (isOutsideGrid(from, to)) || isShipTooBig(from, to) || isShipWrongWay(from, to)) {	
+		        	System.out.println("Incorrect input, try again.");
 		        	System.out.println("Please enter the starting coordinates for your " + nbr +" ship (x y):");
 		        	from = new Point(scan.nextInt(), scan.nextInt());
 		        	System.out.println("Please enter the ending coordinates for your " + nbr +" ship (x y):");   
@@ -91,6 +92,46 @@ public class Grid {
 		}
 	}
 	
+	public void placeComputerShips(int shipnbr) {
+    	int shipSize = 0;
+    	int shipLives = 0;
+    	Position position = null;
+		Ship ship = new Ship(shipSize, shipLives, position);
+		ships.add(ship);
+		Point from = new Point(0, 0);
+		Point to = new Point(0, 0);	
+		int rand1 = new Random().nextInt((9 - 0) + 1) + 0;
+		int rand2 = new Random().nextInt((9 - 0) + 1) + 0;
+		int rand3 = 0;
+		boolean direction = Math.random() < 0.5;
+		
+		if (direction) {
+			rand3 = new Random().nextInt((9 - rand2) + 1) + rand2;
+			from = new Point(rand1, rand2);
+	        to = new Point(rand1, rand3);
+		} else {
+			rand3 = new Random().nextInt((9 - rand1) + 1) + rand1;
+			from = new Point(rand1, rand2);
+	        to = new Point(rand3, rand2);
+		}
+    	while (isPointFreeForPlacement(from, to) || isShipTooBig(from, to)) {	
+    		if (direction) {
+    			rand3 = new Random().nextInt((9 - rand2) + 1) + rand2;
+    			from = new Point(rand1, rand2);
+    	        to = new Point(rand1, rand3);
+    		} else {
+    			rand3 = new Random().nextInt((9 - rand1) + 1) + rand1;
+    			from = new Point(rand1, rand2);
+    	        to = new Point(rand3, rand2);
+    		}
+        }
+        position = new Position(from, to);
+        shipSize = (int) Utils.distanceBetweenPoints(from, to);
+        ship.setPosition(position);
+        ship.setShipSize(shipSize);
+        ship.setShipLives(shipSize);
+		drawShips(from, to, playerGrid);
+	}
 	
 	//Prints map depending on map (playerGrid or attackGrid
     public void printGrid(String[][] grid) {
@@ -130,7 +171,6 @@ public class Grid {
     			|| ((to.getX() == from.getX() + 2) && (to.getY() == from.getY() + 2))
     			|| ((to.getX() == from.getX() + 3) && (to.getY() == from.getY() + 3))
     			) {
-    		System.out.println("The ship you tried to place is too big. Try again.");
     		return true;
     	}
     	return false;
@@ -142,7 +182,6 @@ public class Grid {
     			|| from.getY() > 9 || from.getY() < 0 
     			|| to.getX() > 9 || to.getX() < 0 
     			|| to.getY() > 9 || to.getY() < 0) {
-    		System.out.println("You can not place ships outside the grid. Try again.");
     		return true;
     	}
     	return false;
@@ -151,23 +190,22 @@ public class Grid {
     //checks if ship is attempted to be placed ontop/1 grid too close
     public boolean isPointFreeForPlacement(Point from, Point to) {
     	for (Point p: pointList) {
-    		if (p.equals(from) || p.equals(to)) {
-    			System.out.println("Cannot place ships on top of/too close to another ship! Try again.");
+    		if (p.equals(from) || p.equals(to))			
     			return true;
-    		}
     	}
     	return false;
     }
     
     //add ships to playerGrid
     private void drawShips(Point from, Point to, String[][] grid) {
+
        if ((int) from.getY() <=  to.getY() && from.getX() <= to.getX()) {
     	   for(int i = (int) from.getX(); i <= to.getX(); i++) {
     		   for(int j = (int) from.getY(); j <= to.getY(); j++) {
 	               grid[j][i] = Constants.SHIP_SYM;
 	           }
 	       }
-       } else if ((int) from.getY() >=  to.getY() && from.getX() >= to.getX()) {
+       } else {
 	       for(int i = (int) from.getX(); i >= to.getX(); i++) {
 	           for(int j = (int) from.getY(); j >= to.getY(); j++) {
 	               grid[j][i] = Constants.SHIP_SYM;
@@ -175,7 +213,8 @@ public class Grid {
 	       }
        }
        addPoint(from, to);
-    }
+       }
+    
     
     //attacking, returns null if miss, true if hit/sunk
     public Ship targetShip(Point point, String name) {
@@ -208,7 +247,6 @@ public class Grid {
         updateShipOnBoard(point, Constants.MISS_SYM);
         return hitShip;
     }
-    
     //updates playerGrid with 1 or 0, 1 for hit 0 for miss
     private void updateShipOnBoard(Point point, String result) {
         int x = (int) point.getX();
