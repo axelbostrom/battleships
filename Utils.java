@@ -17,6 +17,15 @@ public class Utils {
         return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2)) + 1;
     }
     
+    public static boolean isPointEqual(Point point, Position position) {
+        Point from = position.getFrom();
+        Point to = position.getTo();
+        System.out.println("kommer jag hit??");
+        if (point.equals(from) || point.equals(to))
+        	return false;
+        return true;
+    }
+    
     //Is point between boolean
     public static boolean isPointBetween(Point point, Position position) {
         Point from = position.getFrom();

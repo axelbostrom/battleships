@@ -3,15 +3,11 @@ package battleships;
 public class Ship {
 	private int shipSize;
 	private int shipLives;
-	private String shipnbr;
-	private boolean shipSunk;
 	private Position position;
 	
-	public Ship(int shipSize, String shipnbr, int shipLives, boolean shipSunk, Position position) {
+	public Ship(int shipSize, int shipLives, Position position) {
 		this.shipSize = shipSize;
-		this.shipnbr = shipnbr;
 		this.shipLives = shipLives;
-		this.shipSunk = false;
 		this.position = position;
 	}
 	
@@ -21,14 +17,6 @@ public class Ship {
 
 	public void setPosition(Position position) {
 		this.position = position;
-	}
-	
-	public String getShipnbr() {
-		return shipnbr;
-	}
-
-	public void setShipnbr(String shipnbr) {
-		this.shipnbr = shipnbr;
 	}
 
 	public int getShipSize() {
@@ -47,19 +35,11 @@ public class Ship {
 		this.shipLives = shipLives;
 	}
 
-	public boolean isShipSunk() {
-		return shipSunk;
-	}
-
-	public void setShipSunk(boolean shipSunk) {
-		this.shipSunk = shipSunk;
-	}
-	
 	public void reduceShipLives() {
 		shipLives--;
 	}
 	
-	public boolean shipHit() {
+	public boolean isShipSunk() {
 		if (shipLives == 0)
 			return true;
 		return false;
