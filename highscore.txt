@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+1. Name: kjfkd, Hitrate (Percent): 100, Shots fired: 2
+2. Name: jfdjf, Hitrate (Percent): 100, Shots fired: 32
+3. Name: dfjdfj, Hitrate (Percent): 100, Shots fired: 32
+4. Name: jgjdfjg, Hitrate (Percent): 100, Shots fired: 32
+5. Name: Benim1, Hitrate (Percent): 99, Shots fired: 32
+6. Name: Benim2, Hitrate (Percent): 98, Shots fired: 32
+7. Name: Benim3, Hitrate (Percent): 97, Shots fired: 32
+8. Name: Benim4, Hitrate (Percent): 96, Shots fired: 32
+9. Name: Benim5, Hitrate (Percent): 95, Shots fired: 32
+=======
 1. Name: sjdjsdj, Hitrate: 100
 2. Name: Benim1, Hitrate: 99
 3. Name: Benim2, Hitrate: 98
@@ -7,3 +18,4 @@
 7. Name: Benim6, Hitrate: 94
 8. Name: Benim7, Hitrate: 93
 9. Name: Benim8, Hitrate: 69
+>>>>>>> 244e20815337b4e4e8e066bdadad3d193b5c2c6f
