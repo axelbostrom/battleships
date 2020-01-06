@@ -13,19 +13,15 @@ public class Utils {
 		double y1 = from.getY();
 		double x2 = to.getX();
 		double y2 = to.getY();
-
 		if (x2 - x1 == 0) {
 			if (y2 == 0 || y1 == 0)
 				return Point.distance(x1, y1, x2, y2) + 1;
 		}
-
 		if (y2 - y1 == 0) {
 			if (x2 == 0 || x1 == 0)
 				return Point.distance(x1, y1, x2, y2) + 1;
 		}
-
 		return Point.distance(x1, y1, x2, y2);
-		// return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) + 1;
 	}
 
 	// CHECK IS POINT IS EQUAL TO POSITION

@@ -11,6 +11,7 @@ public class Player {
 	protected float hitrate;
 	protected float damagerate;
 	protected float opponenthealth;
+	protected long playertime;
 	protected float hit = 0;
 	protected float shots = 0;
 	protected int id;
@@ -74,6 +75,14 @@ public class Player {
 	public void setDamagerate(float damagerate) {
 		this.damagerate = damagerate;
 	}
+	
+	public void addPlayerTime(long t) {
+		playertime = playertime + t;
+	}
+
+	public long getPlayerTime() {
+		return playertime / 1000;
+	}
 
 	public void makeGrid(int c) {
 		for (int i = 0; i < Constants.pshipAmount; i++) {
@@ -92,6 +101,7 @@ public class Player {
 	}
 
 	public void turnToPlay(Player opponent) {
+		long time = System.currentTimeMillis();
 		boolean inputCorrect = true;
 		boolean action = true;
 		if (opponent.getHealth() == 0 || getHealth() == 0)
@@ -122,7 +132,9 @@ public class Player {
 						point = new Point(scan.nextInt(), scan.nextInt());
 					}
 					action = attack(point, opponent);
+					
 				}
+				addPlayerTime(System.currentTimeMillis() - time);
 				inputCorrect = false;
 			} catch (InputMismatchException e) {
 				System.out.println("Incorrect input. Only use numbers. Try again.");

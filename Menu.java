@@ -21,7 +21,6 @@ public class Menu implements MenuItem {
 	private List<MenuItem> items;
 
 	public Menu() {
-
 	}
 
 	public Menu(String title) {
