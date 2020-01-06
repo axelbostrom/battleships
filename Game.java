@@ -24,8 +24,6 @@ public class Game {
 			newPlayer(playernbr);
 			play();
 		}
-		// return to main menu
-		return;
 	}
 
 	public void newPlayer(int playernbr) {

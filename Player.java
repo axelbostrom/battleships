@@ -39,17 +39,17 @@ public class Player {
 	public void setID(int id) {
 		this.id = id;
 	}
-	
+
 	public int getShots() {
 		return (int) shots;
-	}
-	
-	public void setShots(float shots) {
-		this.shots = shots;
 	}
 
 	public int getHealth() {
 		return health;
+	}
+
+	public void setShots(float shots) {
+		this.shots = shots;
 	}
 
 	public void setHealth(int health) {
@@ -79,6 +79,13 @@ public class Player {
 			if (c == 2) {
 				grid.placeComputerShips(i);
 			}
+		}
+		setHealth(grid.countX());
+	}
+
+	public void makeComputerGrid() {
+		for (int i = 0; i < Constants.pshipAmount; i++) {
+			grid.placeComputerShips(i);
 		}
 		setHealth(grid.countX());
 	}
@@ -142,7 +149,6 @@ public class Player {
 
 	public boolean attack(Point point, Player opponent) {
 		shots++;
-		setShots(shots);
 		boolean action = false;
 		String name = getName();
 		boolean isShipHit = opponent.grid.targetShip(point, name) != null;

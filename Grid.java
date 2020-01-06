@@ -131,13 +131,14 @@ public class Grid {
 		System.out.println();
 	}
 
+	// for printing playerGrid from Player.java
+	public void printPlayerGrid() {
+		printGrid(playerGrid);
+	}
+
 	// for printing attackGrid from Player.java
 	public void printAttackGrid() {
 		printGrid(attackGrid);
-	}
-
-	public void printPlayerGrid() {
-		printGrid(playerGrid);
 	}
 
 	public boolean isShipWrongWay(Point from, Point to) {

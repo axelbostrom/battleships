@@ -184,14 +184,14 @@ public class Menu implements MenuItem {
 		for (String s : highscoreList) {
 			System.out.println(s);
 		}
-		OutputStream spara = new FileOutputStream(
+		OutputStream save = new FileOutputStream(
 				"/home/axebo861/eclipse-workspace/Sänkaskepp/src/battleships/highscore.txt", false);
-		saveHighscore(spara);
+		saveHighscore(save);
 	}
 
 	public void saveHighscore(OutputStream os) throws IOException {
 		OutputStreamWriter outputStreamWriter = new OutputStreamWriter(os);
-		for (String s : highscoreList) {
+		for(String s : highscoreList) {
 			outputStreamWriter.append(s + "\n");
 		}
 		outputStreamWriter.close();
