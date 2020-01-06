@@ -201,7 +201,7 @@ public class Menu implements MenuItem {
 
 	public void saveHighscore(OutputStream os) throws IOException {
 		OutputStreamWriter outputStreamWriter = new OutputStreamWriter(os);
-		for(String s : highscoreList) {
+		for (String s : highscoreList) {
 			outputStreamWriter.append(s + "\n");
 		}
 		outputStreamWriter.close();

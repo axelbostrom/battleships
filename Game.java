@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Game {
-	public LinkedList<Player> players = new LinkedList<Player>();
 	static Scanner scan = new Scanner(System.in);
+	public LinkedList<Player> players = new LinkedList<Player>();
 
 	public void runGame(int playernbr) throws IOException {
 		Utils.printEmpty();

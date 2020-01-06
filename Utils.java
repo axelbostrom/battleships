@@ -3,6 +3,7 @@ package battleships;
 import java.awt.Point;
 
 public class Utils {
+	
 	private Utils() {
 
 	}

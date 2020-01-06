@@ -10,12 +10,14 @@ public class Player {
 	protected String name;
 	protected float hitrate;
 	protected float damagerate;
+	protected float healthpercentage;
 	protected float opponenthealth;
 	protected long playertime;
 	protected float hit = 0;
 	protected float shots = 0;
 	protected int id;
 	protected int health;
+	protected int startHealth;
 	public Scanner scan = new Scanner(System.in);
 	private Map<Point, Boolean> targetHistory = new HashMap<>();
 	private Grid grid = new Grid();
@@ -52,12 +54,12 @@ public class Player {
 		return health;
 	}
 
-	public void setShots(float shots) {
-		this.shots = shots;
-	}
-
 	public void setHealth(int health) {
 		this.health = health;
+	}
+
+	public void setShots(float shots) {
+		this.shots = shots;
 	}
 
 	public float getHitrate() {
@@ -75,7 +77,7 @@ public class Player {
 	public void setDamagerate(float damagerate) {
 		this.damagerate = damagerate;
 	}
-	
+
 	public void addPlayerTime(long t) {
 		playertime = playertime + t;
 	}
@@ -92,8 +94,6 @@ public class Player {
 				grid.placeComputerShips(i);
 		}
 		setHealth(grid.countX());
-		System.out.println(getName() + "'s grid.");
-		grid.printPlayerGrid();
 	}
 
 	public void printPlayerGrid() {
@@ -121,9 +121,10 @@ public class Player {
 					}
 					opponent.grid.printAttackGrid();
 					System.out.println();
-					if (hit != 0) {
-						System.out.println("Your hitrate is: " + getHitrate() + "%");
-						System.out.println("Your damagerate is: " + getDamagerate() + "%");
+					if (shots != 0) {
+						System.out.println("Your health left: " + getHealth() + "/" + grid.countX() + ".");
+						System.out.println("Your hitrate is: " + getHitrate() + "%.");
+						System.out.println("Your damagerate is: " + getDamagerate() + "%.");
 					}
 					System.out.println(getName() + " choose the coordinates you want to attack (x y): ");
 					Point point = new Point(scan.nextInt(), scan.nextInt());
@@ -132,7 +133,6 @@ public class Player {
 						point = new Point(scan.nextInt(), scan.nextInt());
 					}
 					action = attack(point, opponent);
-					
 				}
 				addPlayerTime(System.currentTimeMillis() - time);
 				inputCorrect = false;

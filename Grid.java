@@ -113,7 +113,7 @@ public class Grid {
 		ships.add(ship);
 		Point from = new Point(Utils.getRandomPoint());;
 		Point to = new Point(Utils.getRandomPoint());;
-		while (isIllegalForm(from, to) || checkPoints(from, to) || isShipWrongWay(from, to)) {
+		while (isIllegalForm(from, to) || checkPoints(from, to) || isShipWrongWay(from, to) || isShipTooBig(from, to)) {
 			from = Utils.getRandomPoint();
 			to = Utils.getRandomPoint();
 		}
