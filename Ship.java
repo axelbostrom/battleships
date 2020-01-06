@@ -4,13 +4,13 @@ public class Ship {
 	private int shipSize;
 	private int shipLives;
 	private Position position;
-	
+
 	public Ship(int shipSize, int shipLives, Position position) {
 		this.shipSize = shipSize;
 		this.shipLives = shipLives;
 		this.position = position;
 	}
-	
+
 	public Position getPosition() {
 		return position;
 	}
@@ -38,7 +38,7 @@ public class Ship {
 	public void reduceShipLives() {
 		shipLives--;
 	}
-	
+
 	public boolean isShipSunk() {
 		if (shipLives == 0)
 			return true;
