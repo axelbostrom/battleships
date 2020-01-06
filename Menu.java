@@ -1,7 +1,18 @@
 package battleships;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 public class Menu implements MenuItem {
 	protected String title;
@@ -67,51 +78,51 @@ public class Menu implements MenuItem {
 		System.out.println();
 		mainMenu.add(new AbstractMenuItem("Exit game") {
 			public void execute() {
-				Constants.printEmpty();
+				Utils.printEmpty();
 				System.exit(1);
 			}
 		});
 		mainMenu.add(new AbstractMenuItem("Play") {
 			public void execute() throws IOException {
-				Constants.printEmpty();
+				Utils.printEmpty();
 				playGame.execute();
 			}
 		});
 		mainMenu.add(new AbstractMenuItem("Scoreboard") {
 			public void execute() throws IOException {
-				Constants.printEmpty();
+				Utils.printEmpty();
 				scoreBoard.execute();
 			}
 		});
 		playGame.add(new AbstractMenuItem("Main menu") {
 			public void execute() throws IOException {
-				Constants.printEmpty();
+				Utils.printEmpty();
 				mainMenu.execute();
 			}
 		});
 		playGame.add(new AbstractMenuItem("Player vs computer") {
 			public void execute() throws IOException {
-				Constants.printEmpty();
+				Utils.printEmpty();
 				game.runGame(1);
 				mainMenu.execute();
 			}
 		});
 		playGame.add(new AbstractMenuItem("Player vs player") {
 			public void execute() throws IOException {
-				Constants.printEmpty();
+				Utils.printEmpty();
 				game.runGame(2);
 				mainMenu.execute();
 			}
 		});
 		scoreBoard.add(new AbstractMenuItem("Main menu") {
 			public void execute() throws IOException {
-				Constants.printEmpty();
+				Utils.printEmpty();
 				mainMenu.execute();
 			}
 		});
 		scoreBoard.add(new AbstractMenuItem("Show highscore") {
 			public void execute() throws IOException {
-				Constants.printEmpty();
+				Utils.printEmpty();
 				System.out.println("Top 10 players");
 				System.out.println("==============");
 				for (String s : highscoreList) {
@@ -123,7 +134,7 @@ public class Menu implements MenuItem {
 		});
 		returnMenu.add(new AbstractMenuItem("Main menu") {
 			public void execute() throws IOException {
-				Constants.printEmpty();
+				Utils.printEmpty();
 				mainMenu.execute();
 			}
 		});

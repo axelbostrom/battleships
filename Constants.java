@@ -13,10 +13,4 @@ public class Constants {
 	public static String WAT_SYM = "~";
 	public static String SHIP_SYM = "X";
 
-	// PRINT EMPTY
-	public static void printEmpty() {
-		for (int i = 0; i < Constants.emptySpace; i++) {
-			System.out.println("\n");
-		}
-	}
 }

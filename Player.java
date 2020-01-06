@@ -1,7 +1,10 @@
 package battleships;
 
-import java.util.*;
 import java.awt.Point;
+import java.util.HashMap;
+import java.util.InputMismatchException;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Player {
 	protected String name;
@@ -76,18 +79,16 @@ public class Player {
 		for (int i = 0; i < Constants.pshipAmount; i++) {
 			if (c == 1)
 				grid.placeShips(i);
-			if (c == 2) {
+			if (c == 2)
 				grid.placeComputerShips(i);
-			}
 		}
 		setHealth(grid.countX());
+		System.out.println(getName() + "'s grid.");
+		grid.printPlayerGrid();
 	}
 
-	public void makeComputerGrid() {
-		for (int i = 0; i < Constants.pshipAmount; i++) {
-			grid.placeComputerShips(i);
-		}
-		setHealth(grid.countX());
+	public void printPlayerGrid() {
+		grid.printPlayerGrid();
 	}
 
 	public void turnToPlay(Player opponent) {
@@ -139,9 +140,9 @@ public class Player {
 		while (action) {
 			if (opponent.getHealth() == 0 || getHealth() == 0)
 				break;
-			Point point = new Point(getRandomCoordinate(), getRandomCoordinate());
+			Point point = new Point(Utils.getRandomPoint());
 			while (targetHistory.get(point) != null) {
-				point = new Point(getRandomCoordinate(), getRandomCoordinate());
+				point = Utils.getRandomPoint();
 			}
 			action = attack(point, opponent);
 		}
@@ -178,10 +179,5 @@ public class Player {
 			setDamagerate(damagerate);
 		}
 		return damagerate;
-	}
-
-	public int getRandomCoordinate() {
-		int random = new Random().nextInt((9 - 0) + 1) + 0;
-		return random;
 	}
 }

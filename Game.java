@@ -1,14 +1,16 @@
 package battleships;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.InputMismatchException;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 public class Game {
 	public LinkedList<Player> players = new LinkedList<Player>();
 	static Scanner scan = new Scanner(System.in);
 
 	public void runGame(int playernbr) throws IOException {
-		Constants.printEmpty();
+		Utils.printEmpty();
 		System.out.println("Welcome to Battle Ships!");
 		System.out.println("========================");
 		System.out.println();
@@ -41,7 +43,7 @@ public class Game {
 			player.setName(name);
 			player.setID(i);
 			System.out.println();
-			Constants.printEmpty();
+			Utils.printEmpty();
 			System.out.println("Welcome " + player.getName() + "!");
 			System.out.println("Would you like to place your own ships?");
 			System.out.println("1. Yes");
@@ -57,13 +59,16 @@ public class Game {
 					case 1:
 						System.out.println(player.getName() + " get ready to place your ships.");
 						player.makeGrid(1);
-						Constants.printEmpty();
+						Utils.printEmpty();
 						inputCorrect = false;
 						break;
 					case 2:
 						System.out.println(player.getName() + " the computer is placing your ships...");
 						player.makeGrid(2);
-						Constants.printEmpty();
+						System.out.println("Your grid with ships placed!");
+						player.printPlayerGrid();
+						Utils.pressAnyKeyToContinue();
+						Utils.printEmpty();
 						inputCorrect = false;
 						break;
 					}
