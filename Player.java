@@ -78,7 +78,7 @@ public class Player {
 		this.damagerate = damagerate;
 	}
 
-	public void addPlayerTime(long t) {
+	public void setPlayerTime(long t) {
 		playertime = playertime + t;
 	}
 
@@ -134,7 +134,7 @@ public class Player {
 					}
 					action = attack(point, opponent);
 				}
-				addPlayerTime(System.currentTimeMillis() - time);
+				setPlayerTime(System.currentTimeMillis() - time);
 				inputCorrect = false;
 			} catch (InputMismatchException e) {
 				System.out.println("Incorrect input. Only use numbers. Try again.");

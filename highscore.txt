@@ -1,9 +1,9 @@
-1. Name: kjfkd, Hitrate (Percent): 100, Shots fired: 2
-2. Name: jfdjf, Hitrate (Percent): 100, Shots fired: 32
-3. Name: dfjdfj, Hitrate (Percent): 100, Shots fired: 32
-4. Name: jgjdfjg, Hitrate (Percent): 100, Shots fired: 32
-5. Name: Benim1, Hitrate (Percent): 99, Shots fired: 32
-6. Name: Benim2, Hitrate (Percent): 98, Shots fired: 32
-7. Name: Benim3, Hitrate (Percent): 97, Shots fired: 32
-8. Name: Benim4, Hitrate (Percent): 96, Shots fired: 32
-9. Name: Benim5, Hitrate (Percent): 95, Shots fired: 32
+1. Name: Axel, Hitrate (Percent): 100, Shots fired: 2, Time(sec): 4
+2. Name: Oliver, Hitrate (Percent): 100, Shots fired: 2, Time(sec): 2
+3. Name: yoyoe, Hitrate (Percent): 100, Shots fired: 32, Time(sec): 3
+4. Name: Boboddy, Hitrate (Percent): 100, Shots fired: 32, Time(sec): 20
+5. Name: Gimli, Hitrate (Percent): 100, Shots fired: 32, Time(sec): 25
+6. Name: Benim1, Hitrate (Percent): 99, Shots fired: 32, Time(sec): 29
+7. Name: Benim2, Hitrate (Percent): 98, Shots fired: 32, Time(sec): 31
+8. Name: Benim3, Hitrate (Percent): 97, Shots fired: 32, Time(sec): 32
+9. Name: Benim1, Hitrate (Percent): 96, Shots fired: 32, Time(sec): 33

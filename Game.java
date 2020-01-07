@@ -72,7 +72,6 @@ public class Game {
 						inputCorrect = false;
 						break;
 					}
-
 				} catch (InputMismatchException e) {
 					System.out.println("Incorrect input. Only use numbers. Try again.");
 					System.out.println();
@@ -91,7 +90,6 @@ public class Game {
 		Player player = new Player(name, health, playernbr, hitrate, damagerate);
 		players.add(player);
 		player.makeGrid(2);
-
 	}
 
 	public void play() throws IOException {
@@ -105,9 +103,10 @@ public class Game {
 			player = (players.get(0).getHealth() < players.get(1).getHealth()) ? players.get(1) : players.get(0);
 		}
 		System.out.println(player.getName() + " you have sunk all ships, you win!");
+		System.out.println("Your time was " + player.getPlayerTime() + " seconds.");
 		if (player.getHitrate() >= menu.checkHighscoreList((int) player.getHitrate())) {
 			System.out.println("Congratulations! You made the highscore list!");
-			menu.saving((int) player.getHitrate(), player.getShots(), player.getName());
+			menu.saving((int) player.getHitrate(), player.getShots(), player.getName(), player.getPlayerTime());
 		}
 		System.out.println("Returning to main menu.");
 		System.out.println();
@@ -122,6 +121,7 @@ public class Game {
 			players.get(j).ComputerTurnToPlay(players.get(i));
 			player = (players.get(0).getHealth() < players.get(1).getHealth()) ? players.get(1) : players.get(0);
 		}
+		//VAD GÖR VI HÄR???????
 		System.out.println(player.getName() + " you have sunk all ships, you win!");
 		System.out.println("Returning to main menu.");
 		System.out.println();

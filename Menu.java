@@ -122,12 +122,7 @@ public class Menu implements MenuItem {
 		scoreBoard.add(new AbstractMenuItem("Show highscore") {
 			public void execute() throws IOException {
 				Utils.printEmpty();
-				System.out.println("Top 10 players");
-				System.out.println("==============");
-				for (String s : highscoreList) {
-					System.out.println(s);
-				}
-				System.out.println();
+				printHighscore();
 				returnMenu.execute();
 			}
 		});
@@ -167,7 +162,7 @@ public class Menu implements MenuItem {
 		return 0;
 	}
 
-	public void saving(int hitrate, int shots, String playerName) throws IOException {
+	public void saving(int hitrate, int shots, String playerName, long playertime) throws IOException {
 		highScoreList();
 		LinkedList<String> placeholder = new LinkedList<String>();
 		int scorePlace = checkHighscoreList(hitrate);
@@ -180,20 +175,18 @@ public class Menu implements MenuItem {
 			String[] splitLine = s.split(":");
 			if (scorePlace + 48 == s.charAt(0)) {
 				placeholder.add(scorePlace + ". Name: " + playerName + ", Hitrate (Percent): " + hitrate
-						+ ", Shots fired: " + shots);
-				placeholder.add(i + ". Name:" + splitLine[1] + ":" + splitLine[2] + ":" + splitLine[3]);
+						+ ", Shots fired: " + shots + ", Time(sec): " + playertime);
+				placeholder.add(i + ". Name:" + splitLine[1] + ":" + splitLine[2] + ":" + splitLine[3] + ":" + splitLine[4]);
 				continue;
 			}
 			i++;
 			if (i == 10)
 				break;
-			placeholder.add(i + ". Name:" + splitLine[1] + ":" + splitLine[2] + ":" + splitLine[3]);
+			placeholder.add(i + ". Name:" + splitLine[1] + ":" + splitLine[2] + ":" + splitLine[3] + ":" + splitLine[4]);
 		}
 		highscoreList.clear();
 		highscoreList = placeholder;
-		for (String s : highscoreList) {
-			System.out.println(s);
-		}
+		printHighscore();
 		OutputStream save = new FileOutputStream(
 				"/home/axebo861/eclipse-workspace/Sänkaskepp/src/battleships/highscore.txt", false);
 		saveHighscore(save);
@@ -206,4 +199,15 @@ public class Menu implements MenuItem {
 		}
 		outputStreamWriter.close();
 	}
+	
+	public void printHighscore() {
+		System.out.println();
+		System.out.println("============================ Highscore ============================ ");
+		for (String s : highscoreList) {
+			System.out.println(s);
+		}
+		System.out.println("=================================================================== ");
+		System.out.println();
+	}
+	
 }
