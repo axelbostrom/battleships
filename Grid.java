@@ -105,14 +105,15 @@ public class Grid {
 		}
 	}
 
+	// computer places ships
 	public void placeComputerShips(int shipnbr) {
 		int shipSize = 0;
 		int shipLives = 0;
 		Position position = null;
 		Ship ship = new Ship(shipSize, shipLives, position);
 		ships.add(ship);
-		Point from = new Point(Utils.getRandomPoint());;
-		Point to = new Point(Utils.getRandomPoint());;
+		Point from = new Point(Utils.getRandomPoint());
+		Point to = new Point(Utils.getRandomPoint());
 		while (isIllegalForm(from, to) || checkPoints(from, to) || isShipWrongWay(from, to) || isShipTooBig(from, to)) {
 			from = Utils.getRandomPoint();
 			to = Utils.getRandomPoint();
@@ -125,12 +126,14 @@ public class Grid {
 		drawShips(from, to, playerGrid);
 	}
 
+	// checks if ship is bigger than five
 	public boolean isShipTooBig(Point from, Point to) {
 		if (Utils.distanceBetweenPoints(from, to) > 5)
 			return true;
 		return false;
 	}
 
+	// prevents placement where from is bigger than to
 	public boolean isShipWrongWay(Point from, Point to) {
 		if (from.getX() > to.getX() || from.getY() > to.getY())
 			return true;
@@ -218,7 +221,8 @@ public class Grid {
 		int y = (int) point.getY();
 		attackGrid[y][x] = result;
 	}
-	
+
+	// checks if attempted placement points interfere with points in pointList
 	public boolean checkPoints(Point from, Point to) {
 		for (int i = (int) from.getX(); i <= (int) to.getX(); i++) {
 			for (int j = (int) from.getY(); j <= (int) to.getY(); j++) {

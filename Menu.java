@@ -1,23 +1,14 @@
 package battleships;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Menu implements MenuItem {
 	protected String title;
 	private Scanner scan = new Scanner(System.in);
-	private LinkedList<String> highscoreList = new LinkedList<String>();
 	private List<MenuItem> items;
 
 	public Menu() {
@@ -67,7 +58,8 @@ public class Menu implements MenuItem {
 	}
 
 	public void launchMenu() throws IOException {
-		highScoreList();
+		Highscore list = new Highscore();
+		list.highScoreList();
 		Menu mainMenu = new Menu("Main Menu");
 		Menu playGame = new Menu("Play");
 		Menu scoreBoard = new Menu("Scoreboard");
@@ -122,7 +114,7 @@ public class Menu implements MenuItem {
 		scoreBoard.add(new AbstractMenuItem("Show highscore") {
 			public void execute() throws IOException {
 				Utils.printEmpty();
-				printHighscore();
+				list.printHighscore();
 				returnMenu.execute();
 			}
 		});
@@ -134,80 +126,4 @@ public class Menu implements MenuItem {
 		});
 		mainMenu.execute();
 	}
-
-	public void highScoreList() throws IOException {
-		InputStream highscore = new FileInputStream(
-				"/home/axebo861/eclipse-workspace/Sänkaskepp/src/battleships/highscore.txt");
-		BufferedReader reader = new BufferedReader(new InputStreamReader(highscore));
-		while (reader.ready()) {
-			String line = reader.readLine();
-			if (!line.equals("")) {
-				highscoreList.add(line);
-			}
-		}
-		reader.close();
-	}
-
-	public int checkHighscoreList(int hitrate) {
-		int scorePlace = 1;
-		for (String s : highscoreList) {
-			String[] splitLine = s.split(":");
-			String[] extractNumber = splitLine[2].split(",");
-			int recordShots = Integer.parseInt(extractNumber[0].trim());
-			if (hitrate <= recordShots) {
-				return scorePlace;
-			}
-			scorePlace++;
-		}
-		return 0;
-	}
-
-	public void saving(int hitrate, int shots, String playerName, long playertime) throws IOException {
-		highScoreList();
-		LinkedList<String> placeholder = new LinkedList<String>();
-		int scorePlace = checkHighscoreList(hitrate);
-		int i = scorePlace + 1;
-		for (String s : highscoreList) {
-			if (scorePlace + 48 > s.charAt(0)) {
-				placeholder.add(s);
-				continue;
-			}
-			String[] splitLine = s.split(":");
-			if (scorePlace + 48 == s.charAt(0)) {
-				placeholder.add(scorePlace + ". Name: " + playerName + ", Hitrate (Percent): " + hitrate
-						+ ", Shots fired: " + shots + ", Time(sec): " + playertime);
-				placeholder.add(i + ". Name:" + splitLine[1] + ":" + splitLine[2] + ":" + splitLine[3] + ":" + splitLine[4]);
-				continue;
-			}
-			i++;
-			if (i == 10)
-				break;
-			placeholder.add(i + ". Name:" + splitLine[1] + ":" + splitLine[2] + ":" + splitLine[3] + ":" + splitLine[4]);
-		}
-		highscoreList.clear();
-		highscoreList = placeholder;
-		printHighscore();
-		OutputStream save = new FileOutputStream(
-				"/home/axebo861/eclipse-workspace/Sänkaskepp/src/battleships/highscore.txt", false);
-		saveHighscore(save);
-	}
-
-	public void saveHighscore(OutputStream os) throws IOException {
-		OutputStreamWriter outputStreamWriter = new OutputStreamWriter(os);
-		for (String s : highscoreList) {
-			outputStreamWriter.append(s + "\n");
-		}
-		outputStreamWriter.close();
-	}
-	
-	public void printHighscore() {
-		System.out.println();
-		System.out.println("============================ Highscore ============================ ");
-		for (String s : highscoreList) {
-			System.out.println(s);
-		}
-		System.out.println("=================================================================== ");
-		System.out.println();
-	}
-	
 }

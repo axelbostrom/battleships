@@ -96,7 +96,7 @@ public class Game {
 		int i = 0;
 		int j = 1;
 		Player player = null;
-		Menu menu = new Menu();
+		Highscore list = new Highscore();
 		while (players.get(0).getHealth() > 0 && players.get(1).getHealth() > 0) {
 			players.get(i).turnToPlay(players.get(j));
 			players.get(j).turnToPlay(players.get(i));
@@ -104,9 +104,10 @@ public class Game {
 		}
 		System.out.println(player.getName() + " you have sunk all ships, you win!");
 		System.out.println("Your time was " + player.getPlayerTime() + " seconds.");
-		if (player.getHitrate() >= menu.checkHighscoreList((int) player.getHitrate())) {
+		if (player.getHitrate() >= list.checkHighscoreList((int) player.getHitrate(), (int) player.getShots(), (int) player.getPlayerTime())) {
 			System.out.println("Congratulations! You made the highscore list!");
-			menu.saving((int) player.getHitrate(), player.getShots(), player.getName(), player.getPlayerTime());
+			list.savingHighscore((int) player.getHitrate(), player.getShots(), player.getName(),
+					(int) player.getPlayerTime());
 		}
 		System.out.println("Returning to main menu.");
 		System.out.println();
@@ -121,8 +122,12 @@ public class Game {
 			players.get(j).ComputerTurnToPlay(players.get(i));
 			player = (players.get(0).getHealth() < players.get(1).getHealth()) ? players.get(1) : players.get(0);
 		}
-		//VAD GÖR VI HÄR???????
-		System.out.println(player.getName() + " you have sunk all ships, you win!");
+		if (players.get(j).getHealth() > 0)
+			System.out
+					.println(players.get(i).getName() + " you lost to the bot, " + player.getName() + "... Awkward...");
+		else
+			System.out.println(player.getName() + " you have sunk all ships, you win!");
+
 		System.out.println("Returning to main menu.");
 		System.out.println();
 	}
